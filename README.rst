@@ -3,8 +3,8 @@
 Levis: Programming by the Seat of Your Genes
 ############################################
 
-A toolkit for genetic algorithms in Python, written as an educational companion
-to a technical talk.
+A toolkit for genetic algorithms in Python, written as a companion to a
+technical talk.
 
 
 Overview
@@ -104,7 +104,7 @@ Authors
 -------
 Only one soul can be blamed for this:
 
-- Jeremy Fisher, @thisisroot
+- Jeremy Fisher, `@thisisroot <https://twitter.com/thisisroot>`_.
 
 
 License
