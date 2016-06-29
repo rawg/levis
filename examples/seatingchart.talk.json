@@ -1,0 +1,80 @@
+{
+    "roles": [
+        "Engineer",
+        "Manager",
+        "Sales",
+        "-"
+    ],
+    "people": {
+        "0": [
+            "Sandra Rogers",
+            "Engineer"
+        ],
+        "1": [
+            "Kirk Spence",
+            "Engineer"
+        ],
+        "2": [
+            "Terry Burton",
+            "Engineer"
+        ],
+        "3": [
+            "Cindy Hill",
+            "Engineer"
+        ],
+        "4": [
+            "Steve Thompson",
+            "Engineer"
+        ],
+        "5": [
+            "Laura Juel",
+            "Engineer"
+        ],
+        "6": [
+            "Emily Cook",
+            "Engineer"
+        ],
+        "7": [
+            "Daniel Barrett",
+            "Manager"
+        ],
+        "8": [
+            "Cedric White",
+            "Manager"
+        ],
+        "9": [
+            "Emily Grimaud",
+            "Sales"
+        ],
+        "10": [
+            "Joseph Johnson",
+            "Sales"
+        ],
+        "11": [
+            "Raymond Seery",
+            "Sales"
+        ],
+        "12": [
+            "-",
+            "-"
+        ],
+        "13": [
+            "-",
+            "-"
+        ],
+        "14": [
+            "-",
+            "-"
+        ],
+        "15": [
+            "-",
+            "-"
+        ]
+    },
+    "data_file": "seatingchart.talk.json",
+    "height": 4,
+    "width": 4,
+    "repulsion": {
+		"Engineer": ["Sales"]
+	}
+}

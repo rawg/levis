@@ -1,0 +1,219 @@
+{
+    "verbose": false,
+    "roles": [
+        "Physiotherapist",
+        "Chartered loss adjuster",
+        "Pathologist",
+        "Television/film/video producer",
+        "Training and development officer",
+        "Investment banker, corporate",
+        "-"
+    ],
+    "people": {
+        "0": [
+            "Callum Hahn",
+            "Physiotherapist"
+        ],
+        "1": [
+            "Taja Dickinson",
+            "Television/film/video producer"
+        ],
+        "2": [
+            "Betha Gusikowski MD",
+            "Physiotherapist"
+        ],
+        "3": [
+            "Evalyn Abbott",
+            "Training and development officer"
+        ],
+        "4": [
+            "Jonas Nienow",
+            "Television/film/video producer"
+        ],
+        "5": [
+            "Brylee McGlynn DDS",
+            "Pathologist"
+        ],
+        "6": [
+            "Miss Darcie Lemke",
+            "Television/film/video producer"
+        ],
+        "7": [
+            "Kai Mills Jr.",
+            "Pathologist"
+        ],
+        "8": [
+            "Miss Allisson Jacobson",
+            "Television/film/video producer"
+        ],
+        "9": [
+            "Marilynn Ryan",
+            "Pathologist"
+        ],
+        "10": [
+            "Dr. Mammie Keebler DVM",
+            "Training and development officer"
+        ],
+        "11": [
+            "Felipe Altenwerth",
+            "Training and development officer"
+        ],
+        "12": [
+            "Capitola Bogisich",
+            "Physiotherapist"
+        ],
+        "13": [
+            "Darryl Brekke",
+            "Television/film/video producer"
+        ],
+        "14": [
+            "Marlie Jewess",
+            "Physiotherapist"
+        ],
+        "15": [
+            "Arnav Roberts II",
+            "Training and development officer"
+        ],
+        "16": [
+            "Clare Gutmann III",
+            "Training and development officer"
+        ],
+        "17": [
+            "Norris Goodwin",
+            "Physiotherapist"
+        ],
+        "18": [
+            "Mr. Jaxson Lind",
+            "Pathologist"
+        ],
+        "19": [
+            "Mr. Carmine Leannon Sr.",
+            "Television/film/video producer"
+        ],
+        "20": [
+            "Blair Wisoky",
+            "Pathologist"
+        ],
+        "21": [
+            "Chase Kertzmann PhD",
+            "Pathologist"
+        ],
+        "22": [
+            "Margy Stracke MD",
+            "Pathologist"
+        ],
+        "23": [
+            "Saniyah O'Kon",
+            "Training and development officer"
+        ],
+        "24": [
+            "Floyd Schaefer",
+            "Television/film/video producer"
+        ],
+        "25": [
+            "Odus Crooks",
+            "Television/film/video producer"
+        ],
+        "26": [
+            "Chadrick Lehner V",
+            "Training and development officer"
+        ],
+        "27": [
+            "Mr. Jamey Willms",
+            "Investment banker, corporate"
+        ],
+        "28": [
+            "Miss Nyree Herzog",
+            "Investment banker, corporate"
+        ],
+        "29": [
+            "Shonda Mante DDS",
+            "Training and development officer"
+        ],
+        "30": [
+            "Billy Nienow",
+            "Investment banker, corporate"
+        ],
+        "31": [
+            "Mr. Creed Beer MD",
+            "Investment banker, corporate"
+        ],
+        "32": [
+            "Mr. Butch Jerde III",
+            "Physiotherapist"
+        ],
+        "33": [
+            "Dorathy DuBuque",
+            "Pathologist"
+        ],
+        "34": [
+            "Coolidge Cronin",
+            "Chartered loss adjuster"
+        ],
+        "35": [
+            "Mrs. Trilby Dietrich DDS",
+            "Training and development officer"
+        ],
+        "36": [
+            "Loula Kuphal",
+            "Pathologist"
+        ],
+        "37": [
+            "Joanie Hackett",
+            "Investment banker, corporate"
+        ],
+        "38": [
+            "Pratt Rempel",
+            "Chartered loss adjuster"
+        ],
+        "39": [
+            "Merrilee Ankunding",
+            "Investment banker, corporate"
+        ],
+        "40": [
+            "-",
+            "-"
+        ],
+        "41": [
+            "-",
+            "-"
+        ],
+        "42": [
+            "-",
+            "-"
+        ],
+        "43": [
+            "-",
+            "-"
+        ],
+        "44": [
+            "-",
+            "-"
+        ],
+        "45": [
+            "-",
+            "-"
+        ],
+        "46": [
+            "-",
+            "-"
+        ],
+        "47": [
+            "-",
+            "-"
+        ],
+        "48": [
+            "-",
+            "-"
+        ]
+    },
+    "data_file": "seatingchart.json",
+    "height": 7,
+    "width": 7,
+    "repulsion": {
+        "Chartered loss adjuster": [
+            "Training and development officer"
+        ]
+    },
+    "map_type": "naive"
+}

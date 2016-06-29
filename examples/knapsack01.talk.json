@@ -1,0 +1,47 @@
+{
+    "data_file": "knapsack01.talk.json",
+    "items": [
+        {
+            "value": 11,
+            "name": "A",
+            "weight": 10 
+        },
+        {
+            "value": 8,
+            "name": "B",
+            "weight": 8
+        },
+        {
+            "value": 6,
+            "name": "C",
+            "weight": 5
+        },
+        {
+            "value": 12,
+            "name": "D",
+            "weight": 2
+        },
+        {
+            "value": 5,
+            "name": "E",
+            "weight": 8
+        },
+        {
+            "value": 8,
+            "name": "F",
+            "weight": 2
+        },
+        {
+            "value": 4,
+            "name": "G",
+            "weight": 6
+        },
+        {
+            "value": 13,
+            "name": "H",
+            "weight": 7
+        }
+    ],
+    "verbose": false,
+    "max_weight": 15
+}
