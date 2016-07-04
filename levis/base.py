@@ -153,7 +153,7 @@ class GeneticAlgorithm(object):
         This implementation will rank the whole population and select the
         chromosome with the highest fitness score.
         """
-         return self.score_population()[0][0]
+        return self.score_population()[0][0]
 
     def mutate(self, chromosome):
         """Return a mutated chromosome."""
