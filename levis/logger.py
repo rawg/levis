@@ -11,21 +11,19 @@
 
 import logging
 import random
-import sys
 
 from . import base
 
 
 # pylint: disable=abstract-method
-class LoggingGA(base.GeneticAlgorithm):
+class FitnessLoggingGA(base.GeneticAlgorithm):
     """The base trait for logging behavior in GAs."""
 
     def __init__(self, config={}):
-        super(LoggingGA, self).__init__(config)
+        super(FitnessLoggingGA, self).__init__(config)
 
         self.stats_frequency = self.config.setdefault("stats_frequency", 1.0)
 
-        # Configure fitness score logging
         self.log_fitness = self.config.setdefault("log_fitness", True)
         self.stats_logger = logging.getLogger("levis.stats")
         self.stats_logger.setLevel(logging.INFO)
@@ -36,46 +34,22 @@ class LoggingGA(base.GeneticAlgorithm):
             fhstats = logging.FileHandler(self.config["stats_file"])
             logging.getLogger("levis.stats").addHandler(fhstats)
 
-        # Configure population logging
-        self.log_pop = self.config.setdefault("log_population", False)
-        self.population_logger = logging.getLogger("levis.population")
-        self.population_logger.setLevel(logging.INFO)
-        self.population_logger.addHandler(logging.NullHandler())
-
-        if "population_file" in self.config:
-            self.log_pop = True
-            fhpop = logging.FileHandler(self.config["population_file"])
-            logging.getLogger("levis.population").addHandler(fhpop)
-
-        # Verbosity: logging fitness to stdout
-        if self.config.setdefault("verbose", False):
-            self.log_fitness = True
-            handler = logging.StreamHandler(sys.stdout)
-            logging.getLogger("levis.stats").addHandler(handler)
-
     @classmethod
     def arg_parser(cls):
-        parser = super(LoggingGA, cls).arg_parser()
+        parser = super(FitnessLoggingGA, cls).arg_parser()
         parser.add_argument("--stats-file", "-sf",
                             help="Path to the stats log file, if any")
         parser.add_argument("--stats-freq", default=1.0, type=float,
                             help="Frequency at which to log statistics")
-        parser.add_argument("--population-file", "-pf",
-                            help="Path to a log of each generation")
-        parser.add_argument("--verbose", "-v", default=False,
-                            action="store_const", const=True,
-                            help="Log stats and population change to stdout")
         return parser
 
     def seed(self):
-        super(LoggingGA, self).seed()
+        super(FitnessLoggingGA, self).seed()
         self.log_population()
 
     def post_generate(self):
-        super(LoggingGA, self).post_generate()
+        super(FitnessLoggingGA, self).post_generate()
 
-        if self.log_pop:
-            self.log_population()
         if self.log_fitness and random.random() <= self.stats_frequency:
             self.log_stats()
 
@@ -93,6 +67,37 @@ class LoggingGA(base.GeneticAlgorithm):
             scores[-1]
         )
 
+
+class PopulationLoggingGA(base.GeneticAlgorithm):
+    def __init__(self, config={}):
+        super(PopulationLoggingGA, self).__init__(config)
+        self.log_pop = self.config.setdefault("log_population", False)
+        self.population_logger = logging.getLogger("levis.population")
+        self.population_logger.setLevel(logging.INFO)
+        self.population_logger.addHandler(logging.NullHandler())
+
+        if "population_file" in self.config:
+            self.log_pop = True
+            fhpop = logging.FileHandler(self.config["population_file"])
+            logging.getLogger("levis.population").addHandler(fhpop)
+
+    @classmethod
+    def get_arguments(cls):
+        parser = super(PopulationLoggingGA, cls).get_arguments()
+        parser.add_argument("--population-file", "-pf",
+                            help="Path to a log of each generation")
+        return parser
+
+    def seed(self):
+        super(PopulationLoggingGA, self).seed()
+        self.log_population()
+
+    def post_generate(self):
+        super(PopulationLoggingGA, self).post_generate()
+
+        if self.log_pop:
+            self.log_population()
+
     def log_population(self):
         """Write the current population to a logger."""
         chromos = [self.chromosome_str(chromo) for chromo in self.population]
@@ -100,7 +105,7 @@ class LoggingGA(base.GeneticAlgorithm):
         self.population_logger.info("%s: %i: %s", self.id, self.iteration, population)
 
 
-class LoggingProportionateGA(LoggingGA):
+class ProportionateFitnessLoggingGA(FitnessLoggingGA):
     """A logger that uses the cached scores in a ```ProportionateGA``."""
 
     def log_stats(self):

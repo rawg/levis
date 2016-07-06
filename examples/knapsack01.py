@@ -24,7 +24,7 @@ from levis import crossover
 from levis import mutation
 
 
-class Knapsack01GA(levis.LoggingProportionateGA, levis.ProportionateGA):
+class Knapsack01GA(levis.ProportionateFitnessLoggingGA, levis.ProportionateGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):

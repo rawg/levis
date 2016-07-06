@@ -2,7 +2,7 @@
 
 from base import GeneticAlgorithm, ConfigurableCrossoverGA
 from selection import ProportionateGA, TournamentGA, ScalingProportionateGA
-from logger import LoggingGA, LoggingProportionateGA
+from logger import FitnessLoggingGA, ProportionateFitnessLoggingGA, PopulationLoggingGA
 
 import mutation
 import crossover
