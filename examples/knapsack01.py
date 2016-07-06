@@ -24,7 +24,7 @@ from levis import crossover
 from levis import mutation
 
 
-class Knapsack01GA(levis.LoggingProportionateGA):
+class Knapsack01GA(levis.LoggingProportionateGA, levis.ProportionateGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):
@@ -153,9 +153,8 @@ def main():
     }
 
     description = "Genetic solution to the 0/1 Knapsack Problem"
-    parser = configuration.get_parser(description, "knapsack01.json")
-    noop = Knapsack01GA()
-    noop.add_arguments(parser)
+    parent = [Knapsack01GA.arg_parser()]
+    parser = configuration.get_parser(description, "knapsack01.json", parent)
 
     parser.add_argument("--uniform_cx", action="store_true",
                         help="Use uniform crossover instead of single-point")

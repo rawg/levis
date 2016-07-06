@@ -53,8 +53,9 @@ class LoggingGA(base.GeneticAlgorithm):
             handler = logging.StreamHandler(sys.stdout)
             logging.getLogger("levis.stats").addHandler(handler)
 
-    def add_arguments(self, parser):
-        super(LoggingGA, self).add_arguments(parser)
+    @classmethod
+    def arg_parser(cls):
+        parser = super(LoggingGA, cls).arg_parser()
         parser.add_argument("--stats-file", "-sf",
                             help="Path to the stats log file, if any")
         parser.add_argument("--stats-freq", default=1.0, type=float,
@@ -64,6 +65,7 @@ class LoggingGA(base.GeneticAlgorithm):
         parser.add_argument("--verbose", "-v", default=False,
                             action="store_const", const=True,
                             help="Log stats and population change to stdout")
+        return parser
 
     def seed(self):
         super(LoggingGA, self).seed()

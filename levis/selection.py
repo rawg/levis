@@ -45,11 +45,13 @@ class ProportionateGA(base.GeneticAlgorithm):
         self.elitism_pct = self.config.setdefault("elitism_pct", 0.02)
         self.elites = int(math.ceil(self.elitism_pct * self.population_size))
 
-    def add_arguments(self, parser):
-        super(ProportionateGA, self).add_arguments(parser)
+    @classmethod
+    def arg_parser(cls):
+        parser = super(ProportionateGA, cls).arg_parser()
         parser.add_argument("--elitism", "-e", type=float,
                             help="Percentage of the population to preserve in "
                             "elitism (0.0-1.0)")
+        return parser
 
     def proportion_population(self):
         """Return a scored and ranked copy of the population.
@@ -141,11 +143,13 @@ class TournamentGA(base.GeneticAlgorithm):
         self.tournament_size = self.config.setdefault("tournament_size",
                                                       sample_size)
 
-    def add_arguments(self, parser):
-        super(TournamentGA, self).add_arguments(parser)
+    @classmethod
+    def get_parser(cls):
+        parser = super(TournamentGA, cls).get_parser()
         parser.add_argument("--tournament-size", type=int,
                             help="Number of chromosomes to sample in a"
                             "tournament.")
+        return parser
 
     def select(self):
         """Return the best genotype found in a random sample."""

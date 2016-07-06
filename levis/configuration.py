@@ -9,10 +9,10 @@ from os import getcwd
 DATA_FILE = getcwd() + "/problem.json"
 """Default path to a configuration file."""
 
-def get_parser(description, datafile=DATA_FILE):
+def get_parser(description, datafile=DATA_FILE, parents=[]):
     """Get an argument parser with common arguments created."""
 
-    parser = argparse.ArgumentParser(description=description)
+    parser = argparse.ArgumentParser(description=description, parents=parents)
 
     parser.add_argument("--data-file", "-df", default=datafile,
                         help="Path to the data file")

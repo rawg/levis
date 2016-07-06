@@ -10,6 +10,7 @@ This module provides the following:
 
 """
 
+import argparse
 import random
 import uuid
 
@@ -51,8 +52,10 @@ class GeneticAlgorithm(object):
         if "seed" in self.config:
             random.seed(self.config["seed"])
 
-    def add_arguments(self, parser):
+    @classmethod
+    def arg_parser(self):
         """Add arguments to an ``ArgumentParser`` object for configuration."""
+        parser = argparse.ArgumentParser(add_help=False)
 
         parser.add_argument("--population-size", "-p", type=int,
                             help="Size of the population")
@@ -67,6 +70,8 @@ class GeneticAlgorithm(object):
                             help="Crossover probability (0.0-1.0)")
         parser.add_argument("--seed", "-s",
                             help="Seed for random number generator")
+
+        return parser
 
     def seed(self):
         """Create an initial seed population."""
@@ -153,7 +158,7 @@ class GeneticAlgorithm(object):
         This implementation will rank the whole population and select the
         chromosome with the highest fitness score.
         """
-         return self.score_population()[0][0]
+        return self.score_population()[0][0]
 
     def mutate(self, chromosome):
         """Return a mutated chromosome."""
@@ -240,10 +245,12 @@ class ConfigurableCrossoverGA(GeneticAlgorithm):
         else:
             self.xop = None
 
-    def add_arguments(self, parser):
-        super(ConfigurableCrossoverGA, self).add_arguments(parser)
+    @classmethod
+    def arg_parser(cls, parser):
+        parser = super(ConfigurableCrossoverGA, cls).arg_parser()
         parser.add_argument("--crossover-operator", "-cx",
                             help="Crossover operator")
+        return parser
 
     def crossover(self):
         if self.xop is None:
