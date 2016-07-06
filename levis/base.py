@@ -219,7 +219,7 @@ class GeneticAlgorithm(object):
 
 
 class ConfigurableCrossoverGA(GeneticAlgorithm):
-    """A GA trait that allows crossover to be configured as a parameter.
+    """A GA trait that makse the crossover method configurable.
 
     This helps to compare the performance of different operators.
     """
