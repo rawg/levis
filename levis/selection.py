@@ -73,6 +73,11 @@ class ProportionateGA(base.GeneticAlgorithm):
                 self.scored.append((tupl[0], tupl[1], tally))
 
     def score_population(self):
+        """Return a scored and ranked copy of the population.
+
+        For efficiency, the scores calculated across each generation for
+        selection are reused."""
+
         return self.scored
 
     def select(self):
