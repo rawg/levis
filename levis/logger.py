@@ -43,10 +43,6 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
                             help="Frequency at which to log statistics")
         return parser
 
-    def seed(self):
-        super(FitnessLoggingGA, self).seed()
-        self.log_population()
-
     def post_generate(self):
         super(FitnessLoggingGA, self).post_generate()
 
