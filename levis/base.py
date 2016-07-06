@@ -221,22 +221,25 @@ class GeneticAlgorithm(object):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
 
-class ScoreTrackingGA(GeneticAlgorithm):
+class BestScoreTrackingGA(GeneticAlgorithm):
     """A GA that tracks a high score."""
 
     def __init__(self, config={}):
         super(ScoreTrackingGA, self).__init__(config)
         self.best_score = (0, None)
 
-    def record_score(self, score, chromosome):
+    def fitness(self, chromosome):
         """Check the score of a chromosome.
 
         Triggers ``new_best`` if there's a winner. This should be called
         from ``score``.
         """
+        score = self.score(chromosome)
         if score > self.best_score[0]:
             self.new_best(score, chromosome)
             self.best_score = (score, chromosome)
+
+        return score
 
     def new_best(self, score, chromosome):
         """Triggered when a new best fitness score is seen."""
