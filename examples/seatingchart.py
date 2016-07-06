@@ -80,8 +80,9 @@ class SeatingChartGA(
             edges = (count * (count - 1))
             self.max_distance += edges * worst_len
 
-    def add_arguments(self, parser):
-        super(self.__class__, self).add_arguments(parser)
+    @classmethod
+    def arg_parser(cls):
+        parser = super(SeatingChartGA, cls).arg_parser()
         parser.add_argument("--map-type", choices=["naive", "hilbert"],
                             default="naive",
                             help="Map vectorization strategy")
@@ -89,6 +90,7 @@ class SeatingChartGA(
                             help="Prefix for SVG renderings of the fittest "
                             "chromosomes from each generation. Requires that "
                             "the svgwrite package be installed.")
+        return parser
 
     def seats_by_role(self, chromosome):
         """Return a dict of ``role -> [seat id]``."""
@@ -271,9 +273,8 @@ def main():
     }
 
     description = "Genetic solution for simle seating charts"
-    parser = configuration.get_parser(description, "seatingchart.json")
-    noop = SeatingChartGA()
-    noop.add_arguments(parser)
+    parent = [SeatingChartGA.arg_parser()]
+    parser = configuration.get_parser(description, "seatingchart.json", parent)
 
     parser.add_argument("--generate", action="store_true",
                         help="Generate and store problem data")

@@ -246,7 +246,7 @@ class ConfigurableCrossoverGA(GeneticAlgorithm):
             self.xop = None
 
     @classmethod
-    def arg_parser(cls, parser):
+    def arg_parser(cls):
         parser = super(ConfigurableCrossoverGA, cls).arg_parser()
         parser.add_argument("--crossover-operator", "-cx",
                             help="Crossover operator")
