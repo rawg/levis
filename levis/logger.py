@@ -82,8 +82,8 @@ class PopulationLoggingGA(base.GeneticAlgorithm):
             logging.getLogger("levis.population").addHandler(fhpop)
 
     @classmethod
-    def get_arguments(cls):
-        parser = super(PopulationLoggingGA, cls).get_arguments()
+    def arg_parser(cls):
+        parser = super(PopulationLoggingGA, cls).arg_parser()
         parser.add_argument("--population-file", "-pf",
                             help="Path to a log of each generation")
         return parser
@@ -103,22 +103,3 @@ class PopulationLoggingGA(base.GeneticAlgorithm):
         chromos = [self.chromosome_str(chromo) for chromo in self.population]
         population = "[%s]" % ", ".join(chromos)
         self.population_logger.info("%s: %i: %s", self.id, self.iteration, population)
-
-
-class ProportionateFitnessLoggingGA(FitnessLoggingGA):
-    """A logger that uses the cached scores in a ```ProportionateGA``."""
-
-    def log_stats(self):
-        """Write generational statistics to a logger."""
-        # pylint: disable=no-member
-        scores = [t[1] for t in self.scored]
-        avg_score = sum(scores) / len(scores)
-
-        self.stats_logger.info(
-            "%s,%i,%f,%f,%f",
-            self.id,
-            self.iteration,
-            scores[0],
-            avg_score,
-            scores[-1]
-        )

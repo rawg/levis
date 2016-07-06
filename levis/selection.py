@@ -60,7 +60,7 @@ class ProportionateGA(base.GeneticAlgorithm):
         the complete population as `[(member, score, weighted fitness)]`.
         """
 
-        ranked = self.score_population()
+        ranked = super(ProportionateGA, self).score_population()
         shares = float(sum([t[1] for t in ranked]))
 
         self.scored = []
@@ -71,6 +71,9 @@ class ProportionateGA(base.GeneticAlgorithm):
                 tally = tally + share
                 # chromosome, score, share range
                 self.scored.append((tupl[0], tupl[1], tally))
+
+    def score_population(self):
+        return self.scored
 
     def select(self):
         """Select a member of the population in a fitness-proportionate way."""
