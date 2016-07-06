@@ -16,7 +16,7 @@ import math
 import random
 
 # pylint: disable=unused-import,relative-import
-import context
+from . import context
 
 import levis
 from levis import configuration
