@@ -77,7 +77,6 @@ class ProportionateGA(base.GeneticAlgorithm):
 
         For efficiency, the scores calculated across each generation for
         selection are reused."""
-
         return self.scored
 
     def select(self):
@@ -126,7 +125,7 @@ class ScalingProportionateGA(ProportionateGA):
         the complete population as `[(member, score, weighted fitness)]`.
         """
 
-        ranked = self.score_population()
+        ranked = super(ProportionateGA, self).score_population()
         scores = [t[1] for t in ranked if t[1] > 0]
         worst = min(scores)
         shares = float(sum([t[1] - worst for t in ranked]))
@@ -163,7 +162,7 @@ class TournamentGA(base.GeneticAlgorithm):
         """Return the best genotype found in a random sample."""
         pop = [random.choice(self.population)
                for _ in range(0, self.tournament_size)]
-        scored = [(geno, self.score(geno)) for geno in pop]
+        scored = [(geno, self.fitness(geno)) for geno in pop]
         scored.sort(key=lambda n: n[1])
         scored.reverse()
 

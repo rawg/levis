@@ -93,7 +93,7 @@ class GeneticAlgorithm(object):
         if self.population is None:
             raise Exception("Cannot score and rank an empty population.")
 
-        scored = [(member, self.score(member)) for member in self.population]
+        scored = [(member, self.fitness(member)) for member in self.population]
         scored.sort(key=lambda n: n[1])
         scored.reverse()
 
@@ -142,6 +142,9 @@ class GeneticAlgorithm(object):
                 child = self.select()
 
             self.next_generation.append(child)
+
+    def fitness(self, chromosome):
+        return self.score(chromosome)
 
     def pre_generate(self):
         """Do anything necessary before creating the next generation."""

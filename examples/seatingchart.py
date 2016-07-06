@@ -30,7 +30,7 @@ from levis import mutation
 # pylint: disable=too-many-instance-attributes, abstract-method
 class SeatingChartGA(
         levis.ScalingProportionateGA,
-        levis.LoggingProportionateGA,
+        levis.FitnessLoggingGA,
         levis.ConfigurableCrossoverGA
     ):
     """Genetic solution to simple seating chart assignments."""

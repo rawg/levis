@@ -16,7 +16,7 @@ import math
 import random
 
 # pylint: disable=unused-import,relative-import
-from . import context
+import context
 
 import levis
 from levis import configuration
@@ -24,7 +24,7 @@ from levis import crossover
 from levis import mutation
 
 
-class Knapsack01GA(levis.ProportionateFitnessLoggingGA, levis.ProportionateGA):
+class Knapsack01GA(levis.FitnessLoggingGA, levis.ProportionateGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):

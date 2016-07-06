@@ -51,7 +51,7 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
 
     def log_stats(self):
         """Write generational statistics to a logger."""
-        scores = [t[1] for t in self.score_population()].sort(reverse=True)
+        scores = [t[1] for t in self.score_population()] #.sort(reverse=True)
         avg_score = sum(scores) / len(scores)
 
         self.stats_logger.info(
