@@ -12,6 +12,7 @@ This module provides the following:
 
 import argparse
 import random
+import re
 import uuid
 
 # pylint: disable=unused-import
@@ -221,11 +222,11 @@ class GeneticAlgorithm(object):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
 
-class BestScoreTrackingGA(GeneticAlgorithm):
+class FittestTriggerGA(GeneticAlgorithm):
     """A GA that tracks a high score."""
 
     def __init__(self, config={}):
-        super(ScoreTrackingGA, self).__init__(config)
+        super(FittestTriggerGA, self).__init__(config)
         self.best_score = (0, None)
 
     def fitness(self, chromosome):
@@ -245,11 +246,51 @@ class BestScoreTrackingGA(GeneticAlgorithm):
         """Triggered when a new best fitness score is seen."""
         raise NotImplementedError
 
+    def best(self):
+        return self.best_score[1]
+
+
+class FittestInGenerationGA(FittestTriggerGA):
+
+    def __init__(self, config={}):
+        super(FittestInGenerationGA, self).__init__(config)
+        self.best_scores = []
+
+    def post_generate(self):
+        super(FittestInGenerationGA, self).post_generate()
+        self.best_scores.append(self.best_score[0])
+
+
+class DoneWhenConvergedGA(FittestInGenerationGA):
+    """A GA that stops if progress hasn't been made."""
+
+    def __init__(self, config={}):
+        super(DoneWhenConvergedGA, self).__init__(config)
+        self.last_progress_iter = 0
+        self.threshold = self.config.setdefault("threshold", 0.05)
+        self.lookback = self.config.setdefault("lookback", 5)
+
+    def is_finished(self):
+        exceeded_duration = self.iteration >= self.max_iterations
+
+        if len(self.best_scores) > self.lookback:
+            first = self.best_scores[-self.lookback]
+            last = self.best_scores[-1]
+            gain = (last - first) / first
+
+            return gain < self.threshold or exceeded_duration
+
+        else:
+            return exceeded_duration
+
 
 class ConfigurableCrossoverGA(GeneticAlgorithm):
     """A GA trait that makse the crossover method configurable.
 
     This helps to compare the performance of different operators.
+
+    When using binary operators, the ``chromosome_length`` property of the GA
+    object must be set.
     """
 
     operators = {
@@ -264,12 +305,20 @@ class ConfigurableCrossoverGA(GeneticAlgorithm):
     }
     """A mapping of operator names to functions."""
 
+
     def __init__(self, config={}):
         super(ConfigurableCrossoverGA, self).__init__(config)
 
         operator = self.config.setdefault("crossover_operator", None)
+        self.is_binary = False
+
         if operator is not None:
             self.xop = ConfigurableCrossoverGA.operators[operator]
+
+            is_binary = re.compile("^.*_bin$")
+            if is_binary.match(operator):
+                self.is_binary = True
+
         else:
             self.xop = None
 
@@ -284,6 +333,13 @@ class ConfigurableCrossoverGA(GeneticAlgorithm):
         if self.xop is None:
             raise Exception("Crossover operator has not been configured.")
 
+        if self.is_binary and not self.chromosome_length:
+            raise Exception("Missing required property ``chromosome_length``.")
+
         parent1 = self.select()
         parent2 = self.select()
-        return self.xop(parent1, parent2)
+
+        if self.is_binary:
+            return self.xop(parent1, parent2, self.chromosome_length)
+        else:
+            return self.xop(parent1, parent2)
