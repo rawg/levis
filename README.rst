@@ -84,13 +84,9 @@ Future Items
 ------------
 
 - [ ] Python 3 support
-- [ ] Alternative end conditions
 - [ ] Cycle crossover
 - [ ] Merge crossover
 - [ ] Explicit "cut-and-splice" crossover (use n-point in the meantime)
-- [ ] Separate traits for logging behavior
-- [ ] ``NewBestScore`` to add a trigger for when a new high score is seen
-- [ ] Clean up handling of configuration and CLI arguments
 - [ ] More tests
 
 Versioning

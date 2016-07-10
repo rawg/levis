@@ -261,7 +261,7 @@ class FittestInGenerationGA(FittestTriggerGA):
         self.best_scores.append(self.best_score[0])
 
 
-class DoneWhenConvergedGA(FittestInGenerationGA):
+class FinishWhenSlowGA(FittestInGenerationGA):
     """A GA that stops if progress hasn't been made."""
 
     def __init__(self, config={}):
