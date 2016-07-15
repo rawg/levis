@@ -105,8 +105,6 @@ class ProportionateGA(base.GeneticAlgorithm):
         if self.elites > 0:
             self.next_generation += [a[0] for a in self.scored[0:self.elites]]
 
-        #self.population = self.fill_population(generation)
-
     def post_generate(self):
         super(ProportionateGA, self).post_generate()
         self.proportion_population()
@@ -146,9 +144,10 @@ class TournamentGA(base.GeneticAlgorithm):
     def __init__(self, config={}):
         super(TournamentGA, self).__init__(config)
 
-        sample_size = int(self.population_size * 0.02)
-        self.tournament_size = self.config.setdefault("tournament_size",
-                                                      sample_size)
+        sample_size = int(math.ceil(self.population_size * 0.02))
+        self.config.setdefault("tournament_size", sample_size)
+
+        self.tournament_size = self.config["tournament_size"]
 
     @classmethod
     def get_parser(cls):
@@ -162,6 +161,7 @@ class TournamentGA(base.GeneticAlgorithm):
         """Return the best genotype found in a random sample."""
         pop = [random.choice(self.population)
                for _ in range(0, self.tournament_size)]
+
         scored = [(geno, self.fitness(geno)) for geno in pop]
         scored.sort(key=lambda n: n[1])
         scored.reverse()

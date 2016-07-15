@@ -23,6 +23,7 @@ def recombine(parent1, parent2):
 
     # Build a child chromosome
     child = []
+    neighbors = adjacency_matrix(parent1, parent2)
     node = parent1[0]
     unused = list(parent1)
 

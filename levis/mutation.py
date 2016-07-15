@@ -52,7 +52,9 @@ def swap(chromosome):
 
     """
     l1 = random.randint(0, len(chromosome) - 1)
-    l2 = random.randint(0, len(chromosome) - 1)
+    l2 = l1
+    while l2 == l1:
+        l2 = random.randint(0, len(chromosome) - 1)
 
     mutant = list(chromosome)
     mutant[l1], mutant[l2] = mutant[l2], mutant[l1]

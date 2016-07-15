@@ -4,19 +4,12 @@ This module provides the following:
 
 - **GeneticAlgorithm**: The base class from which all GA behaviors inherit.
   Sorry it's so long!
-- **ConfigurableCrossoverGA**: A class that accepts a configuration parameter,
-  ``crossover_operator``/``--crossover-operator`` to change the crossover
-  operator at runtime. Useful for comparing performance.
 
 """
 
 import argparse
 import random
-import re
 import uuid
-
-# pylint: disable=unused-import
-from . import crossover
 
 # pylint: disable=too-many-instance-attributes
 class GeneticAlgorithm(object):
@@ -220,126 +213,3 @@ class GeneticAlgorithm(object):
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
-
-
-class FittestTriggerGA(GeneticAlgorithm):
-    """A GA that tracks a high score."""
-
-    def __init__(self, config={}):
-        super(FittestTriggerGA, self).__init__(config)
-        self.best_score = (0, None)
-
-    def fitness(self, chromosome):
-        """Check the score of a chromosome.
-
-        Triggers ``new_best`` if there's a winner. This should be called
-        from ``score``.
-        """
-        score = self.score(chromosome)
-        if score > self.best_score[0]:
-            self.new_best(score, chromosome)
-            self.best_score = (score, chromosome)
-
-        return score
-
-    def new_best(self, score, chromosome):
-        """Triggered when a new best fitness score is seen."""
-        raise NotImplementedError
-
-    def best(self):
-        return self.best_score[1]
-
-
-class FittestInGenerationGA(FittestTriggerGA):
-
-    def __init__(self, config={}):
-        super(FittestInGenerationGA, self).__init__(config)
-        self.best_scores = []
-
-    def post_generate(self):
-        super(FittestInGenerationGA, self).post_generate()
-        self.best_scores.append(self.best_score[0])
-
-
-class FinishWhenSlowGA(FittestInGenerationGA):
-    """A GA that stops if progress hasn't been made."""
-
-    def __init__(self, config={}):
-        super(DoneWhenConvergedGA, self).__init__(config)
-        self.last_progress_iter = 0
-        self.threshold = self.config.setdefault("threshold", 0.05)
-        self.lookback = self.config.setdefault("lookback", 5)
-
-    def is_finished(self):
-        exceeded_duration = self.iteration >= self.max_iterations
-
-        if len(self.best_scores) > self.lookback:
-            first = self.best_scores[-self.lookback]
-            last = self.best_scores[-1]
-            gain = (last - first) / first
-
-            return gain < self.threshold or exceeded_duration
-
-        else:
-            return exceeded_duration
-
-
-class ConfigurableCrossoverGA(GeneticAlgorithm):
-    """A GA trait that makse the crossover method configurable.
-
-    This helps to compare the performance of different operators.
-
-    When using binary operators, the ``chromosome_length`` property of the GA
-    object must be set.
-    """
-
-    operators = {
-        "single_point": crossover.single_point,
-        "single_point_bin": crossover.single_point_bin,
-        "multiple_points": crossover.multiple_points,
-        "uniform": crossover.uniform,
-        "uniform_bin": crossover.uniform_bin,
-        "ordered": crossover.ordered,
-        "partially_matched": crossover.partially_matched,
-        "edge_recombination": crossover.edge_recombination,
-    }
-    """A mapping of operator names to functions."""
-
-
-    def __init__(self, config={}):
-        super(ConfigurableCrossoverGA, self).__init__(config)
-
-        operator = self.config.setdefault("crossover_operator", None)
-        self.is_binary = False
-
-        if operator is not None:
-            self.xop = ConfigurableCrossoverGA.operators[operator]
-
-            is_binary = re.compile("^.*_bin$")
-            if is_binary.match(operator):
-                self.is_binary = True
-
-        else:
-            self.xop = None
-
-    @classmethod
-    def arg_parser(cls):
-        parser = super(ConfigurableCrossoverGA, cls).arg_parser()
-        parser.add_argument("--crossover-operator", "-cx",
-                            help="Crossover operator")
-        return parser
-
-    def crossover(self):
-        if self.xop is None:
-            raise Exception("Crossover operator has not been configured.")
-
-        if self.is_binary and not self.chromosome_length:
-            raise Exception("Missing required property ``chromosome_length``.")
-
-        parent1 = self.select()
-        parent2 = self.select()
-
-        if self.is_binary:
-            return self.xop(parent1, parent2, self.chromosome_length)
-        else:
-            return self.xop(parent1, parent2)

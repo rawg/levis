@@ -1,7 +1,9 @@
 """Unit tests for mutation operations."""
 
 import unittest
+
 import context
+
 from levis import mutation
 
 class MutationTestCase(unittest.TestCase):
@@ -25,6 +27,7 @@ class MutationTestCase(unittest.TestCase):
         self.assertEqual(bin(copy).count("1"), 9)
 
     def test_swap_mutation(self):
+        # [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] == [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
         orig = [i for i in range(10, 21)]
         copy = mutation.swap(orig)
 

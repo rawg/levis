@@ -39,6 +39,11 @@ and some data generation needs ``Faker``.::
   $ pip install fake-factory
 
 
+Additionally, users of Python < 3.3 will need to install the backport of ``mock``.::
+
+  $ pip install mock
+
+
 Installing
 ~~~~~~~~~~
 Install by cloning the git repository. Installation via PyPI is coming soon.::
@@ -70,6 +75,10 @@ individually, like so:::
 
   $ cd tests
   $ python test_crossover.py
+
+Or run all tests:::
+
+    $ python -m unittest discover tests
 
 
 Testing Code Style
