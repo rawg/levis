@@ -63,3 +63,8 @@ target/
 
 # Log files
 *.csv
+*.log
+
+# pyenv
+.python-version
+
