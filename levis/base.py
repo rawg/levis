@@ -26,7 +26,7 @@ class GeneticAlgorithm(object):
         """Initialize a genetic algorithm.
 
         Args:
-            config (Dict): Configuration values to control behavior and setup 
+            config (Dict): Configuration values to control behavior and setup
                 the problem space.
 
         """
@@ -36,6 +36,7 @@ class GeneticAlgorithm(object):
         self.config = config
         self.population = None
         self.next_generation = []
+        self.random = random.Random()
 
         # Basic GA parameters
         self.population_size = self.config.setdefault("population_size", 50)
@@ -47,7 +48,7 @@ class GeneticAlgorithm(object):
 
         # Use a static random seed
         if "seed" in self.config:
-            random.seed(self.config["seed"])
+            self.random.seed(self.config["seed"])
 
     @classmethod
     def arg_parser(self):
@@ -127,7 +128,7 @@ class GeneticAlgorithm(object):
     def generate(self):
         """Create and assign a new generation as the population."""
         while len(self.next_generation) < self.population_size:
-            ticket = random.random()
+            ticket = self.random.random()
             if ticket < self.crossover_prob:
                 child = self.crossover()
 

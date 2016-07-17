@@ -83,7 +83,7 @@ class ProportionateGA(base.GeneticAlgorithm):
 
     def select(self):
         """Select a member of the population in a fitness-proportionate way."""
-        number = random.random()
+        number = self.random.random()
         for ticket in self.scored:
             if number < ticket[2]:
                 return ticket[0]
@@ -161,7 +161,7 @@ class TournamentGA(base.GeneticAlgorithm):
 
     def select(self):
         """Return the best genotype found in a random sample."""
-        pop = [random.choice(self.population)
+        pop = [self.random.choice(self.population)
                for _ in range(0, self.tournament_size)]
 
         scored = [(geno, self.fitness(geno)) for geno in pop]

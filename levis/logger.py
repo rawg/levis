@@ -47,7 +47,7 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
     def post_generate(self):
         super(FitnessLoggingGA, self).post_generate()
 
-        if self.log_fitness and random.random() <= self.stats_frequency:
+        if self.log_fitness and self.random.random() <= self.stats_frequency:
             self.log_stats()
 
     def log_stats(self):
