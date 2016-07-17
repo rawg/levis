@@ -72,9 +72,18 @@ class FittestInGenerationGATestCase(harness.BaseGATestCase):
 class FinishWhenSlowGAUT(FinishWhenSlowGA, harness.DummyBinaryGA):
     pass
 
+# TODO: validate that is_finished() returns True under the right conditions
 class FinishWhenSlowGATestCase(harness.BaseGATestCase):
     def gacls(self):
         return FinishWhenSlowGAUT
+
+
+class ElitistGAUT(ElitistGA, harness.DummyBinaryGA):
+    pass
+
+class ElitistGATestCase(harness.BaseGATestCase):
+    def gacls(self):
+        return ElitistGAUT
 
 
 if __name__ == '__main__':

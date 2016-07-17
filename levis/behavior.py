@@ -4,6 +4,8 @@
 """
 from __future__ import division
 
+import math
+
 from . import GeneticAlgorithm
 
 
@@ -71,3 +73,42 @@ class FinishWhenSlowGA(FittestInGenerationGA):
 
         else:
             return exceeded_duration
+
+
+class ElitistGA(FittestTriggerGA):
+    """A GA that preserves the fittest solutions for crossover."""
+
+    def __init__(self, config={}):
+        super(ElitistGA, self).__init__(config)
+
+        pct = self.config.setdefault("elitism_pct", 0.02)
+        self.elitism_pct = pct
+        self.num_elites = int(math.ceil(pct * self.population_size))
+        self.elites = []
+
+    @classmethod
+    def arg_parser(cls):
+        parser = super(ElitistGA, cls).arg_parser()
+        parser.add_argument("--elitism", "-e", type=float,
+                            help="Percentage of the population to preserve in "
+                            "elitism (0.0-1.0)")
+        return parser
+
+    def new_best(self, score, chromosome):
+        """Add a chromosome to the population of elite solutions."""
+        if self.num_elites > 0:
+            self.elites.append(chromosome)
+            if len(self.elites) > self.num_elites:
+                self.elites = self.elites[1:]
+
+    def pre_generate(self):
+        """Create a new generation using elitism with crossover and mutation.
+
+        This method uses the base `fill_population` method, but seeds the
+        generation with the fittest members of the current generation. Scoring
+        the population is also invoked here.
+        """
+        super(ElitistGA, self).pre_generate()
+
+        if len(self.elites) > 0:
+            self.next_generation += list(self.elites)
