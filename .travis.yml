@@ -7,4 +7,4 @@ python:
   - "3.5"
  
 # command to run tests
-script: "all_tests.py"
+script: python all_tests.py
