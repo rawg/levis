@@ -35,10 +35,10 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 One of levis' design goals is to be runnable on the default Mac OS Python
-installation. As a result, levis targets Python 2.7+, and currently has no
-external dependencies for basic use. However, image rendering in the examples,
-when implemented, relies on ``svgwrite``, and some data generation needs
-``Faker``.::
+installation. As a result, levis targets Python 2.7+ and 3.2+, and currently
+has no external dependencies for basic use. However, image rendering in the
+examples, when implemented, relies on ``svgwrite``, and some data generation
+needs ``Faker``.::
 
   $ pip install svgwrite
   $ pip install fake-factory
