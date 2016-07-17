@@ -25,10 +25,10 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 from levis import (configuration, crossover, mutation, FitnessLoggingGA,
-                     ProportionateGA)
+                   ProportionateGA, ElitistGA)
 
 
-class Knapsack01GA(FitnessLoggingGA, ProportionateGA):
+class Knapsack01GA(FitnessLoggingGA, ProportionateGA, ElitistGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):

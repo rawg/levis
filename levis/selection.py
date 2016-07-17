@@ -44,16 +44,6 @@ class ProportionateGA(base.GeneticAlgorithm):
     def __init__(self, config={}):
         super(ProportionateGA, self).__init__(config)
         self.scored = None
-        self.elitism_pct = self.config.setdefault("elitism_pct", 0.02)
-        self.elites = int(math.ceil(self.elitism_pct * self.population_size))
-
-    @classmethod
-    def arg_parser(cls):
-        parser = super(ProportionateGA, cls).arg_parser()
-        parser.add_argument("--elitism", "-e", type=float,
-                            help="Percentage of the population to preserve in "
-                            "elitism (0.0-1.0)")
-        return parser
 
     def proportion_population(self):
         """Return a scored and ranked copy of the population.
@@ -103,9 +93,6 @@ class ProportionateGA(base.GeneticAlgorithm):
         # First iteration
         if self.scored is None:
             self.proportion_population()
-
-        if self.elites > 0:
-            self.next_generation += [a[0] for a in self.scored[0:self.elites]]
 
     def post_generate(self):
         super(ProportionateGA, self).post_generate()

@@ -32,6 +32,7 @@ from levis import (configuration, crossover, spatial, mutation)
 # pylint: disable=too-many-instance-attributes, abstract-method
 class SeatingChartGA(
         levis.ScalingProportionateGA,
+        levis.ElitistGA,
         levis.FitnessLoggingGA,
         levis.ConfigurableCrossoverGA
     ):

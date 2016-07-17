@@ -5,4 +5,5 @@ from .base import GeneticAlgorithm
 from .crossover import ConfigurableCrossoverGA
 from .selection import ProportionateGA, TournamentGA, ScalingProportionateGA
 from .logger import FitnessLoggingGA, PopulationLoggingGA
+from .behavior import ElitistGA
 
