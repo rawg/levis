@@ -6,6 +6,9 @@ This module provides the following:
   Sorry it's so long!
 
 """
+from builtins import str
+from builtins import range
+from builtins import object
 
 import argparse
 import random

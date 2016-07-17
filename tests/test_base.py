@@ -1,12 +1,13 @@
 """Unit tests for the base GeneticAlgorithm class.
 
 """
+from __future__ import absolute_import
 
 
 import unittest
 
-import context
-import harness
+from . import harness
+#import harness
 
 
 class GeneticAlgorithmTestCase(harness.BaseGATestCase):
@@ -35,4 +36,9 @@ class GeneticAlgorithmTestCase(harness.BaseGATestCase):
 
 
 if __name__ == '__main__':
+    print("pkg", __package__)
+    if __package__ is None:
+        __package__ = "tests.test_base"
+        print("setting package")
+    print("pkg2", __package__)
     unittest.main()

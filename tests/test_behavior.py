@@ -1,12 +1,14 @@
 """Unit tests for the base GeneticAlgorithm class.
 
 """
+from __future__ import absolute_import
+from builtins import range
 
 
 import unittest
 
-import context
-import harness
+from . import context
+from . import harness
 
 from levis.behavior import *
 

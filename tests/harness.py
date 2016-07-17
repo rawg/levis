@@ -1,12 +1,15 @@
 """Test implementations and base test cases.
 
 """
+from __future__ import absolute_import
+from builtins import zip
+from builtins import str
 
 import argparse
 import random
 import unittest
 
-import context
+#from . import context
 
 from levis import GeneticAlgorithm
 
@@ -182,14 +185,21 @@ class BaseGATestCase(unittest.TestCase):
         ga.iterate()
         ch = ga.select()
         st = ga.chromosome_str(ch)
-        self.assertTrue(isinstance(st, str) or isinstance(st, unicode))
+        try:
+            self.assertTrue(isinstance(st, basestring))
+        except NameError:
+            self.assertTrue(isinstance(st, str))
+
 
     def test_chromosome_repr(self):
         ga = self.mkga()
         ga.iterate()
         ch = ga.select()
         st = ga.chromosome_repr(ch)
-        self.assertTrue(isinstance(st, str) or isinstance(st, unicode))
+        try:
+            self.assertTrue(isinstance(st, basestring))
+        except NameError:
+            self.assertTrue(isinstance(st, str))
 
     def test_generate_hooks(self):
         counter = [0]

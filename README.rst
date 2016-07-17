@@ -31,17 +31,12 @@ Getting Started
 Prerequisites
 ~~~~~~~~~~~~~
 
-Levis currently targets Python 2.7 and has no external dependencies for basic
-use. Image rendering in the examples, when implemented, relies on ``svgwrite``,
-and some data generation needs ``Faker``.::
+Levis currently has no external dependencies for basic use. Image rendering in
+the examples, when implemented, relies on ``svgwrite``, and some data
+generation needs ``Faker``.::
 
   $ pip install svgwrite
   $ pip install fake-factory
-
-
-Additionally, users of Python < 3.3 will need to install the backport of ``mock``.::
-
-  $ pip install mock
 
 
 Installing
@@ -70,15 +65,11 @@ Testing
 
 Running the Unit Tests
 ~~~~~~~~~~~~~~~~~~~~~~
-Embarassingly, there aren't that many to run! Test suites can be run
-individually, like so:::
+To run all tests:::
 
-  $ cd tests
-  $ python test_crossover.py
+  $ python all_tests.py
 
-Or run all tests:::
-
-    $ python -m unittest discover tests
+If you wish to run individual tests, you'd best know PEP 328 inside and out!
 
 
 Testing Code Style
@@ -92,11 +83,9 @@ faults.
 Future Items
 ------------
 
-- [ ] Python 3 support
 - [ ] Cycle crossover
 - [ ] Merge crossover
 - [ ] Explicit "cut-and-splice" crossover (use n-point in the meantime)
-- [ ] More tests
 
 Versioning
 ----------

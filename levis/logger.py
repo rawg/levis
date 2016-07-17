@@ -8,6 +8,7 @@
   cached scores calculated after each generation in a ``ProportionateGA``.
 
 """
+from __future__ import division
 
 import logging
 import random

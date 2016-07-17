@@ -26,7 +26,7 @@ def merge(root_config, *args):
     root = root_config.copy()
 
     for arg in args:
-        clean = {k: v for k, v in arg.iteritems() if v is not None}
+        clean = {k: v for k, v in arg.items() if v is not None}
         root.update(clean)
     return root
 
@@ -38,7 +38,7 @@ def read_args(parser):
     """
     args = parser.parse_args()
     args_dict = vars(args)
-    return {k: v for k, v in args_dict.iteritems() if v is not None}
+    return {k: v for k, v in args_dict.items() if v is not None}
 
 
 def write_file(config):

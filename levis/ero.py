@@ -33,7 +33,7 @@ def recombine(parent1, parent2):
         unused.remove(node)
 
         # Remove the node from neighbor lists
-        for s in neighbors.values():
+        for s in list(neighbors.values()):
             if node in s:
                 s.remove(node)
 

@@ -14,18 +14,20 @@ A genetic algorithm to find optimal seating arrangements.
 
 
 """
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
 
 import math
 import random
 
-# pylint: disable=unused-import,relative-import
-import context
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
 
 import levis
-from levis import configuration
-from levis import crossover
-from levis import spatial
-from levis import mutation
+from levis import (configuration, crossover, spatial, mutation)
 
 # pylint: disable=too-many-instance-attributes, abstract-method
 class SeatingChartGA(
@@ -69,14 +71,14 @@ class SeatingChartGA(
         worst_len = spatial.euclidian(0, 0, self.width, self.height)
         assignments = {}
 
-        for _, person in self.people.iteritems():
+        for _, person in self.people.items():
             if person[1] != SeatingChartGA.EMPTY_ROLE:
                 if person[1] in assignments:
                     assignments[person[1]] += 1
                 else:
                     assignments[person[1]] = 1
 
-        for role, count in assignments.iteritems():
+        for role, count in assignments.items():
             edges = (count * (count - 1))
             self.max_distance += edges * worst_len
 
@@ -109,12 +111,12 @@ class SeatingChartGA(
 
         # Tally attractive score
         attraction = 0.0
-        for role, coords in seats_role.iteritems():
+        for role, coords in seats_role.items():
             attraction += spatial.total_edge_length(coords)
 
         # Tally repulsive score
         repulsion = 0.0
-        for role, repulsors in self.repulsion.iteritems():
+        for role, repulsors in self.repulsion.items():
             repulsed = seats_role[role]
             for repulsor in repulsors:
                 repulsees = seats_role[repulsor]

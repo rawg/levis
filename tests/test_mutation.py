@@ -1,8 +1,11 @@
 """Unit tests for mutation operations."""
+from __future__ import absolute_import
+from builtins import zip
+from builtins import range
 
 import unittest
 
-import context
+from . import context
 
 from levis import mutation
 

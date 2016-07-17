@@ -22,18 +22,16 @@ edge_recombination  No      No    Yes
 TODO: Implement cycle crossover
 TODO: Implement merge crossover
 """
+from __future__ import division
+from __future__ import absolute_import
+from builtins import range
 
 
 import random
 import re
 
-try:
-    from . import ero
-    from . import base
-
-except ValueError:
-    import ero
-    import base
+from . import ero
+from . import base
 
 
 def single_point(parent1, parent2, locus=None):
@@ -116,7 +114,6 @@ def multiple_points(parent1, parent2, loci=None, points=2):
 
         loci = []
         for i in range(0, points):
-            i = float(i)
             floor = int(i / points * len(parent1)) + 1
             ceil = int((i + 1) / points * len(parent1)) + 1
             point = random.randint(floor, ceil)
@@ -187,7 +184,7 @@ def partially_matched(parent1, parent2):
     This is suitable for permutation encoded GAs. Partially matched crossover
     respects the absolute position of alleles.
     """
-    third = len(parent1) / 3
+    third = len(parent1) // 3
     l1 = int(random.triangular(1, third, third * 2))
     l2 = int(random.triangular(third, third * 2, len(parent1) - 1))
 

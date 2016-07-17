@@ -1,10 +1,13 @@
 """Unit tests for mutation operations."""
+from __future__ import absolute_import
+from builtins import zip
+from builtins import range
 
 import random
 import unittest
 
-import context
-from harness import permutated_set
+from . import context
+from .harness import permutated_set
 
 from levis import crossover
 

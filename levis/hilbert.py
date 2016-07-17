@@ -6,6 +6,8 @@ See also:
 - https://people.sc.fsu.edu/~jburkardt/py_src/hilbert_curve/hilbert_curve.html
 - https://en.wikipedia.org/wiki/Moore_curve
 """
+from __future__ import division
+from builtins import object
 
 import math
 
@@ -50,13 +52,13 @@ class HilbertCurve(object):
             x = pointOrX
 
         rx = ry = d = 0
-        s = self.width / 2
+        s = old_div(self.width, 2)
         while s > 0:
             rx = int((x & s) > 0)
             ry = int((y & s) > 0)
             d = d + s * s * ((3 * rx) ^ ry)
             x, y = rotate(s, x, y, rx, ry)
-            s = int(s / 2)
+            s = int(old_div(s, 2))
 
         return d
 
@@ -73,7 +75,7 @@ class HilbertCurve(object):
         x = y = 0
         s = 1
         while s < self.width:
-            rx = (t / 2) % 2
+            rx = (old_div(t, 2)) % 2
             if rx is 0:
                 ry = t % 2
             else:

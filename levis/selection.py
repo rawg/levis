@@ -29,6 +29,8 @@ TournamentGA
   the scale of scores.
 
 """
+from __future__ import division
+from builtins import range
 
 import math
 import random

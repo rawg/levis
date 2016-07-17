@@ -11,20 +11,24 @@ Genetic solution to the 0/1 Knapsack Problem.
                          [--items NUM_ITEMS]
 
 """
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
 
 import math
 import random
 
-# pylint: disable=unused-import,relative-import
-import context
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
 
-import levis
-from levis import configuration
-from levis import crossover
-from levis import mutation
+from levis import (configuration, crossover, mutation, FitnessLoggingGA,
+                     ProportionateGA)
 
 
-class Knapsack01GA(levis.FitnessLoggingGA, levis.ProportionateGA):
+class Knapsack01GA(FitnessLoggingGA, ProportionateGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):
@@ -132,7 +136,7 @@ def create_data(config={}):
 
     for i in range(0, num_items):
         name = fmt % (i + 1)
-        weight = random.triangular(1.0, max_weight / 3, max_weight)
+        weight = random.triangular(1.0, max_weight // 3, max_weight)
         value = random.random() * 100
 
         items.append({"name": name, "weight": weight, "value": value})
