@@ -114,7 +114,6 @@ Future Items
 - [ ] Cycle crossover
 - [ ] Merge crossover
 - [ ] Explicit "cut-and-splice" crossover (use n-point in the meantime)
-- [ ] Move ``hilbert`` and ``spatial`` to a ``util`` subpackage
 - [ ] Remove dependence on ``future`` if possible
 
 Versioning

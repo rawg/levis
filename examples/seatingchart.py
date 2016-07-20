@@ -27,7 +27,8 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 import levis
-from levis import (configuration, crossover, spatial, mutation)
+from levis import (configuration, crossover, mutation)
+from levis.util import spatial
 
 # pylint: disable=too-many-instance-attributes, abstract-method
 class SeatingChartGA(
@@ -60,9 +61,9 @@ class SeatingChartGA(
 
         self.map_type = self.config.setdefault("map_type", "naive")
         if self.map_type == "hilbert":
-            self.map = levis.spatial.HilbertMap(self.width, self.height)
+            self.map = spatial.HilbertMap(self.width, self.height)
         else:
-            self.map = levis.spatial.NaiveMap(self.width, self.height)
+            self.map = spatial.NaiveMap(self.width, self.height)
 
         for x in range(0, self.width):
             for y in range(0, self.height):
