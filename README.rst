@@ -35,10 +35,15 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 One of levis' design goals is to be runnable on the default Mac OS Python
-installation. As a result, levis targets Python 2.7+ and 3.2+, and currently
-has no external dependencies for basic use. However, image rendering in the
-examples, when implemented, relies on ``svgwrite``, and some data generation
-needs ``Faker``.::
+installation. As a result, levis targets Python 2.7+ and 3.2+. It currently requires only ``future`` for 2/3 compatibility, although this dependency may be removed in future releases.
+::
+
+  $ pip install future
+
+
+Image rendering in the examples, when implemented, relies on ``svgwrite``, and
+some data generation needs ``Faker``.
+::
 
   $ pip install svgwrite
   $ pip install fake-factory
@@ -46,7 +51,8 @@ needs ``Faker``.::
 
 Installing
 ~~~~~~~~~~
-Install by cloning the git repository. Installation via PyPI is coming soon.::
+Install by cloning the git repository. Installation via PyPI is coming soon.
+::
 
   $ git clone https://github.com/rawg/levis
 
@@ -58,7 +64,8 @@ If you're looking at this project, you're probably more interested in the
 example implementations than in the core genetic behaviors. Each ``*.py`` file
 in  the ``examples/`` folder should respond to a ``-h`` argument to list its
 options. All should run without any options, but you'll want to tweak the
-parameters to better understand each algorithm.::
+parameters to better understand each algorithm.
+::
 
   $ cd examples/
   $ python knapsack01.py -h
@@ -70,11 +77,27 @@ Testing
 
 Running the Unit Tests
 ~~~~~~~~~~~~~~~~~~~~~~
-To run all tests:::
+To run all tests:
+::
 
   $ python all_tests.py
 
 If you wish to run individual tests, you'd best know PEP 328 inside and out!
+
+Running an individual test method:
+::
+
+  $ python -m tests.test_behavior FinishWhenSlowGATestCase.test_doesnt_finish_when_fast
+
+Running a single test case:
+::
+
+  $ python -m tests.test_behavior FinishWhenSlowGATestCase
+
+Running a single test file:
+::
+
+  $ python -m tests.test_behavior
 
 
 Testing Code Style
