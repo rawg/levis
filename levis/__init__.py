@@ -3,7 +3,6 @@ from __future__ import absolute_import
 
 from .base import GeneticAlgorithm
 from .crossover import ConfigurableCrossoverGA
-from .selection import ProportionateGA, TournamentGA, ScalingProportionateGA
+from .selection import ProportionateGA, TournamentGA, ScalingProportionateGA, ElitistGA
 from .logger import FitnessLoggingGA, PopulationLoggingGA
-from .behavior import ElitistGA
 

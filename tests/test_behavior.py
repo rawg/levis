@@ -94,13 +94,5 @@ class FinishWhenSlowGATestCase(harness.BaseGATestCase):
         self.assertTrue(ga.is_finished())
 
 
-class ElitistGAUT(ElitistGA, harness.DummyBinaryGA):
-    pass
-
-class ElitistGATestCase(harness.BaseGATestCase):
-    def gacls(self):
-        return ElitistGAUT
-
-
 if __name__ == '__main__':
     unittest.main()
