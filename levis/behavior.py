@@ -57,7 +57,6 @@ class FinishWhenSlowGA(FittestInGenerationGA):
 
     def __init__(self, config={}):
         super(FinishWhenSlowGA, self).__init__(config)
-        self.last_progress_iter = 0
         self.threshold = self.config.setdefault("threshold", 0.05)
         self.lookback = self.config.setdefault("lookback", 5)
 
@@ -69,13 +68,13 @@ class FinishWhenSlowGA(FittestInGenerationGA):
             last = self.best_scores[-1]
             gain = (last - first) / first
 
-            return gain < self.threshold or exceeded_duration
+            return gain <= self.threshold or exceeded_duration
 
         else:
             return exceeded_duration
 
 
-class ElitistGA(FittestTriggerGA):
+class ElitistGA(GeneticAlgorithm):
     """A GA that preserves the fittest solutions for crossover."""
 
     def __init__(self, config={}):
@@ -86,6 +85,39 @@ class ElitistGA(FittestTriggerGA):
         self.num_elites = int(math.ceil(pct * self.population_size))
         self.elites = []
 
+    def fitness(self, chromosome):
+        """Add a chromosome to the population of elite solutions."""
+
+        score = super(ElitistGA, self).fitness(chromosome)
+
+        if self.num_elites > 0:
+
+            if len(self.elites) > 0:
+                sentry = self.elites[-1][0]
+            else:
+                sentry = 0
+
+            if (score > sentry or len(self.elites) < self.num_elites):
+
+                add = (score, chromosome)
+                pos = None
+
+                for i in range(0, len(self.elites)):
+                    if score > self.elites[i][0]:
+                        pos = i
+
+                if pos is None:
+                    self.elites.append(add)
+                elif pos == 0:
+                    self.elites = [add] + self.elites
+                else:
+                    self.elites = self.elites[0:pos] + [add] + self.elites[pos:-1]
+
+                if len(self.elites) > self.num_elites:
+                    self.elites = self.elites[0:-1]
+
+        return score
+
     @classmethod
     def arg_parser(cls):
         parser = super(ElitistGA, cls).arg_parser()
@@ -93,13 +125,6 @@ class ElitistGA(FittestTriggerGA):
                             help="Percentage of the population to preserve in "
                             "elitism (0.0-1.0)")
         return parser
-
-    def new_best(self, score, chromosome):
-        """Add a chromosome to the population of elite solutions."""
-        if self.num_elites > 0:
-            self.elites.append(chromosome)
-            if len(self.elites) > self.num_elites:
-                self.elites = self.elites[1:]
 
     def pre_generate(self):
         """Create a new generation using elitism with crossover and mutation.
@@ -111,4 +136,4 @@ class ElitistGA(FittestTriggerGA):
         super(ElitistGA, self).pre_generate()
 
         if len(self.elites) > 0:
-            self.next_generation += list(self.elites)
+            self.next_generation += [elite[1] for elite in self.elites]

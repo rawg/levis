@@ -77,6 +77,22 @@ class FinishWhenSlowGATestCase(harness.BaseGATestCase):
     def gacls(self):
         return FinishWhenSlowGAUT
 
+    def test_finishes_when_slow(self):
+        ga = self.mkga()
+        ga.best_scores = [10, 13, 15, 16, 16, 16, 16, 16]
+        self.assertTrue(ga.is_finished())
+
+    def test_doesnt_finish_when_fast(self):
+        ga = self.mkga()
+        ga.best_scores = [10, 13, 15, 17, 18, 18, 19]
+        self.assertFalse(ga.is_finished())
+
+    def test_finishes_at_max_iterations(self):
+        ga = self.mkga({"max_iterations": 10})
+        ga.best_scores = [1, 5, 6, 10, 13, 15, 17, 18, 20, 22, 24]
+        ga.iteration = 11
+        self.assertTrue(ga.is_finished())
+
 
 class ElitistGAUT(ElitistGA, harness.DummyBinaryGA):
     pass
