@@ -18,7 +18,36 @@ from . import base
 
 # pylint: disable=abstract-method
 class FitnessLoggingGA(base.GeneticAlgorithm):
-    """The base trait for logging behavior in GAs."""
+    """A trait that logs the min, mean, and max score of each generation.
+
+    Enable fitness logging by mixing this trait into your GA and setting
+    ``log_fitness`` to true in the ``config`` object. Once enabled, statistics
+    will be written to any ``logging`` handlers bound to the ``levis.stats``.
+
+    If the ``stats_file``/``--stats-file`` option is set, logging is
+    automatically enabled and a ``FileHandler`` created.
+
+    Statistics for each generation are logged as a CSV format with the
+    following fields:
+
+      1. GA Instance ID, a UUID created in ``base.GeneticAlgorithm.__init__``.
+      2. Generation number.
+      3. Best score in the generation.
+      4. Mean score for the generation.
+      5. Worst score for the generation.
+
+    By default, statistics will be logged for each generation. This requires
+    calling ``score_generation``. In a GA that uses proportionate selection,
+    every member of each generation is already scored, and so there is no
+    overhead (calls to ``score_generation`` are memoized in
+    ``selection.ProportionateGA`` and its descendants). But in tournament
+    selection – one of the advantages to which is invoking the fitness function
+    less often – this may increase the clock time of your algorithm. To avoid
+    rescoring each population, you can provide a probability to log each
+    generation by assigning the ``stats_frequency``/``--stats-freq`` option a
+    float between 0.0 and 1.0. For instance, to log half of all generations,
+    sets ``stats_freq`` to 0.5.
+    """
 
     def __init__(self, config={}):
         super(FitnessLoggingGA, self).__init__(config)
@@ -51,7 +80,7 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
             self.log_stats()
 
     def log_stats(self):
-        """Write generational statistics to a logger."""
+        """Write generation statistics to a logger."""
         scores = [t[1] for t in self.score_population()] #.sort(reverse=True)
         avg_score = sum(scores) / len(scores)
 
