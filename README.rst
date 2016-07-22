@@ -109,7 +109,6 @@ Future Items
 - [ ] Cycle crossover
 - [ ] Merge crossover
 - [ ] Explicit "cut-and-splice" crossover (use n-point in the meantime)
-- [ ] Remove dependence on ``future`` if possible
 
 Versioning
 ----------
