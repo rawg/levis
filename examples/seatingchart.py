@@ -16,8 +16,8 @@ A genetic algorithm to find optimal seating arrangements.
 """
 from __future__ import print_function
 from __future__ import absolute_import
-from builtins import str
-from builtins import range
+#from builtins import str
+#from builtins import range
 
 import math
 import random

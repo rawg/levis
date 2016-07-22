@@ -2,14 +2,12 @@
 
 """
 from __future__ import absolute_import
-from builtins import zip
-from builtins import str
+#from builtins import zip
+#from builtins import str
 
 import argparse
 import random
 import unittest
-
-#from . import context
 
 from levis import GeneticAlgorithm
 

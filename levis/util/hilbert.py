@@ -7,7 +7,7 @@ See also:
 - https://en.wikipedia.org/wiki/Moore_curve
 """
 from __future__ import division
-from builtins import object
+#from builtins import object
 
 import math
 

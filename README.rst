@@ -35,14 +35,9 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 One of levis' design goals is to be runnable on the default Mac OS Python
-installation. As a result, levis targets Python 2.7+ and 3.2+. It currently requires only ``future`` for 2/3 compatibility, although this dependency may be removed in future releases.
-::
-
-  $ pip install future
-
-
-Image rendering in the examples, when implemented, relies on ``svgwrite``, and
-some data generation needs ``Faker``.
+installation. As a result, levis targets Python 2.7+ and 3.2+. There are no
+dependencies to work with levis, but image rendering in the examples, when
+implemented, relies on ``svgwrite``, and some data generation needs ``Faker``.
 ::
 
   $ pip install svgwrite

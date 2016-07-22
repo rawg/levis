@@ -14,7 +14,7 @@ Contents:
   graph to its nearest member in another. Useful for calculating a repulsive
   score in seating chart applications.
 """
-from builtins import object
+#from builtins import object
 
 import math
 

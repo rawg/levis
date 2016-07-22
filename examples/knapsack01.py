@@ -14,8 +14,8 @@ Genetic solution to the 0/1 Knapsack Problem.
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
-from builtins import str
-from builtins import range
+#from builtins import str
+#from builtins import range
 
 import math
 import random
