@@ -7,7 +7,6 @@ from __future__ import absolute_import
 import unittest
 
 from . import harness
-#import harness
 
 
 class GeneticAlgorithmTestCase(harness.BaseGATestCase):

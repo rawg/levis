@@ -7,7 +7,6 @@ from __future__ import absolute_import
 
 import unittest
 
-from . import context
 from . import harness
 
 from levis.behavior import *
