@@ -6,8 +6,6 @@ levis/behavior.py
 levis/configuration.py
 levis/crossover.py
 levis/ero.py
-levis/hilbert.py
 levis/logger.py
 levis/mutation.py
 levis/selection.py
-levis/spatial.py
