@@ -6,8 +6,8 @@ Levis: Programming by the Seat of Your Genes
 .. image:: https://travis-ci.org/rawg/levis.svg?branch=master
     :target: https://travis-ci.org/rawg/levis
 
-A toolkit for genetic algorithms in Python, written as a companion to a
-technical talk.
+A toolkit for genetic algorithms in Python. Pronounce it like the denim pants,
+because ``levis`` lets you program by the seat of your genes!
 
 
 Overview
@@ -46,6 +46,11 @@ implemented, relies on ``svgwrite``, and some data generation needs ``Faker``.
 
 Installing
 ~~~~~~~~~~
+Installation is now available via PyPI.
+::
+
+  $ pip install levis
+
 Install by cloning the git repository. Installation via PyPI is coming soon.
 ::
 
@@ -77,8 +82,6 @@ To run all tests:
 
   $ python all_tests.py
 
-If you wish to run individual tests, you'd best know PEP 328 inside and out!
-
 Running an individual test method:
 ::
 
@@ -98,17 +101,37 @@ Running a single test file:
 Testing Code Style
 ~~~~~~~~~~~~~~~~~~
 
-The code is run through ``pylint``, if that sort of thing interests you. Note
-that many pylint warnings are currently ignored, but it's good to know your
-faults.
+The code is periodically checked with ``pylint``, if that sort of thing
+interests you. Note that several ``pylint`` warnings are currently ignored, but
+it's good to know your faults.
 
 
-Future Items
-------------
+Planned Changes
+---------------
 
-- [ ] Cycle crossover
-- [ ] Merge crossover
-- [ ] Explicit "cut-and-splice" crossover (use n-point in the meantime)
+You can expect the following in future releases:
+
+- Additional crossover operators, such as cycle and merge crossover.
+- At least some crossover operators will return two children (breaking change).
+- Mutation rate will be the likelihood of a change to any allele to match Dr.
+  Goldberg's examples.
+- The examples will be moved to another repository and several more will be
+  added.
+- API documentation and a user's guide will be available (probably at
+  readthedocs.org)
+
+Please be aware that the API is in flux, and changes between versions may still
+introduce breaking changes.
+
+
+Change Log
+----------
+
+:v0.4.0: A big step toward a stable API, this version includes decomposed
+         logging traits, an implementation of elitism that works with
+         tournament selection, a number of bug fixes and minor improvements,
+         and installation via ``pip``/PyPI.
+
 
 Versioning
 ----------
