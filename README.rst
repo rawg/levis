@@ -5,6 +5,8 @@ Levis: Programming by the Seat of Your Genes
 
 .. image:: https://travis-ci.org/rawg/levis.svg?branch=master
     :target: https://travis-ci.org/rawg/levis
+.. image:: https://badge.fury.io/py/levis.svg
+    :target: https://badge.fury.io/py/levis
 
 A toolkit for genetic algorithms in Python. Pronounce it like the denim pants,
 because ``levis`` lets you program by the seat of your genes!
