@@ -1,11 +1,12 @@
 """Logging traits for genetic algorithms.
 
-- **LoggingGA**: A big trait that enables logging the entire contents of each
-  generation, as well as performance stats at configurable intervals. Note that
-  to enable the ``--verbose`` command line argument, your GA must extend this
-  class.
-- **LoggingProportionateGA**: A logging trait that takes advantage of the
-  cached scores calculated after each generation in a ``ProportionateGA``.
+Contents
+--------
+
+:FitnessLoggingGA:
+    A trait that logs the minimum, mean, and maximum score of all or a sample
+    of generations.
+:PopulationLoggingGA: A trait that logs each chromosome in a generation.
 
 """
 from __future__ import division
@@ -95,6 +96,19 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
 
 
 class PopulationLoggingGA(base.GeneticAlgorithm):
+    """A trait that logs each chromosome in every generation.
+
+    A representation of each chromosome is created using ``chromosome_str``.
+
+    Enable population logging by mixing this trait into your GA and setting
+    ``log_population`` to true in the ``config`` object. Once enabled, the
+    contents of each generation will be written to any ``logging`` handlers
+    bound to the ``levis.population``.
+
+    If the ``population_file``/``--population-file`` option is set, logging is
+    automatically enabled and a ``FileHandler`` created.
+    """
+
     def __init__(self, config={}):
         super(PopulationLoggingGA, self).__init__(config)
         self.log_pop = self.config.setdefault("log_population", False)
@@ -128,4 +142,5 @@ class PopulationLoggingGA(base.GeneticAlgorithm):
         """Write the current population to a logger."""
         chromos = [self.chromosome_str(chromo) for chromo in self.population]
         population = "[%s]" % ", ".join(chromos)
-        self.population_logger.info("%s: %i: %s", self.id, self.iteration, population)
+        self.population_logger.info("%s: %i: %s", self.id, self.iteration,
+                                    population)

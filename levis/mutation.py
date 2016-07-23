@@ -1,7 +1,10 @@
 """Functions for mutation operations.
 
+Contents
+--------
 
-The suitability of operations to encoding types is listed below.
+Mutation operators are implemented as functions. The available operators and
+their suitability to encoding types is listed below.
 
 =========   ======  ====  ===========
 Operation   Binary  List  Permutation

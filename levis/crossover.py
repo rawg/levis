@@ -1,10 +1,17 @@
 """Functions for crossover operations.
 
-- **ConfigurableCrossoverGA**: A class that accepts a configuration parameter,
-  ``crossover_operator``/``--crossover-operator`` to change the crossover
-  operator at runtime. Useful for comparing performance.
+Contents
+--------
 
-The suitability of operation to encoding type is listed below.
+This module provides the following classes:
+
+:ConfigurableCrossoverGA:
+    A class that accepts a configuration parameter,
+    ``crossover_operator``/``--crossover-operator`` to change the crossover
+    operator at runtime. Useful for comparing performance.
+
+In addition, crossover operations are implemented as functions. The available
+operations and their suitability for encoding types is listed below.
 
 ==================  ======  ====  ===========
 Operation           Binary  List  Permutation
@@ -18,9 +25,6 @@ ordered             No      No    Yes
 partially_matched   No      No    Yes
 edge_recombination  No      No    Yes
 ==================  ======  ====  ===========
-
-TODO: Implement cycle crossover
-TODO: Implement merge crossover
 """
 from __future__ import division
 from __future__ import absolute_import

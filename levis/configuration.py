@@ -1,5 +1,16 @@
 """Configuration utilities.
 
+Note that this module may be deprecated in the future as examples get
+refactored.
+
+Contents
+--------
+
+:get_parser: Creates an ``ArgumentParser`` with common arguments.
+:merge: Merges two configuration dictionaries.
+:read_args: Returns a ``dict`` of arguments from an ArgumentParser.
+:read_file: Reads serialized JSON configuration from a file.
+:write_file: Writes configuration as serialized JSON to a file.
 """
 
 import argparse

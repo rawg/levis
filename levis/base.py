@@ -1,9 +1,9 @@
 """Core Genetic Algorithm classes.
 
-This module provides the following:
+Contents
+--------
 
-- **GeneticAlgorithm**: The base class from which all GA behaviors inherit.
-  Sorry it's so long!
+:GeneticAlgorithm: The base class from which all GA behaviors inherit.
 
 """
 #from builtins import str

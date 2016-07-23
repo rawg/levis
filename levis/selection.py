@@ -1,32 +1,38 @@
 """Selection strategies for genetic algorithms.
 
-Included is an implementation of a fitness proportionate strategy as well as
-tournament selection.
 
-ProportionateGA
-  Proportionate selection scores all chromosomes in each generation and gives
-  more fit chromosomes an advantage in selection for reproduction that is
-  proportionate to the fitness scores. For instance, a chromosome with a score
-  of 10 will be twice as likely to be selected as one with a score of 5.
+Contents
+--------
 
-  With proportionate selection comes the advantages of convergence in fewer
-  generations and elitism, ensuring the best members of a generation live on
-  unchanged to the next.
+:ProportionateGA:
+    Proportionate selection scores all chromosomes in each generation and gives
+    more fit chromosomes an advantage in selection for reproduction that is
+    proportionate to the fitness scores. For instance, a chromosome with a score
+    of 10 will be twice as likely to be selected as one with a score of 5.
 
-ScalingProportionateGA
-  This is proportionate selection, but one that scales the reproductive
-  advantage by using the minimum non-zero score as the lower end of a scale. If
-  the highest score in a generation is 100 and the lowest is 30, then scores
-  will be scaled from 1 to 70 to increase the advantage of more fit
-  individuals.
+    With proportionate selection comes the advantages of convergence in fewer
+    generations and elitism, ensuring the best members of a generation live on
+    unchanged to the next.
 
-TournamentGA
-  Tournament selection scores a random sample of the population and always
-  promotes the member with the best score for reproduction. Elitism is moot,
-  since there is no guarantee that the highest scored members of a generation
-  are the most fit, but convergence can come in fewer CPU cycles when the
-  fitness function is expensive, and it has the advantage of being agnostic to
-  the scale of scores.
+:ScalingProportionateGA:
+    This is proportionate selection, but one that scales the reproductive
+    advantage by using the minimum non-zero score as the lower end of a scale. If
+    the highest score in a generation is 100 and the lowest is 30, then scores
+    will be scaled from 1 to 70 to increase the advantage of more fit
+    individuals.
+
+:TournamentGA:
+    Tournament selection scores a random sample of the population and always
+    promotes the member with the best score for reproduction. Elitism is moot,
+    since there is no guarantee that the highest scored members of a generation
+    are the most fit, but convergence can come in fewer CPU cycles when the
+    fitness function is expensive, and it has the advantage of being agnostic to
+    the scale of scores.
+
+:ElitistGA:
+    Elitism ensures the survival of the absolute fittest chromosomes between
+    generations to prevent regression. This is not a selection mechanism by
+    itself, but augments one of the strategies above.
 
 """
 from __future__ import division
@@ -39,7 +45,7 @@ from . import base
 
 
 class ProportionateGA(base.GeneticAlgorithm):
-    """Behaviors for a GA to use fitness proportionate selection."""
+    """A GA that uses fitness-proportionate selection."""
 
     def __init__(self, config={}):
         super(ProportionateGA, self).__init__(config)
@@ -128,7 +134,7 @@ class ScalingProportionateGA(ProportionateGA):
 
 
 class TournamentGA(base.GeneticAlgorithm):
-    """Behaviors for tournament selection in a GA."""
+    """A GA that uses tournament selection."""
 
     def __init__(self, config={}):
         super(TournamentGA, self).__init__(config)
