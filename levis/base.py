@@ -128,18 +128,19 @@ class GeneticAlgorithm(object):
     def generate(self):
         """Create and assign a new generation as the population."""
         while len(self.next_generation) < self.population_size:
-            ticket = self.random.random()
-            if ticket < self.crossover_prob:
-                child = self.crossover()
-
-            elif ticket < self.crossover_prob + self.mutation_prob:
-                child = self.select()
-                child = self.mutate(child)
-
+            if self.random.random() < self.crossover_prob:
+                children = self.crossover()
             else:
-                child = self.select()
+                children = (self.select(), self.select())
 
-            self.next_generation.append(child)
+            for child in children:
+                if len(self.next_generation) >= self.population_size:
+                    break
+
+                if self.random.random() < self.mutation_prob:
+                    child = self.mutate(child)
+
+                self.next_generation.append(child)
 
     def fitness(self, chromosome):
         return self.score(chromosome)

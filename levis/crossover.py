@@ -50,7 +50,7 @@ def single_point(parent1, parent2, locus=None):
             selected locus.
 
     Returns:
-        List: A new chromosome descended from the given parents.
+        Tuple[List]: A new chromosome descended from the given parents.
     """
     if len(parent1) > len(parent2):
         parent1, parent2 = parent2, parent1
@@ -58,7 +58,7 @@ def single_point(parent1, parent2, locus=None):
     if locus is None:
         locus = int(random.triangular(1, len(parent1) / 2, len(parent1) - 2))
 
-    return parent1[0:locus] + parent2[locus:]
+    return (parent1[0:locus] + parent2[locus:])
 
 
 def single_point_bin(parent1, parent2, length=None, locus=None):
@@ -75,7 +75,7 @@ def single_point_bin(parent1, parent2, length=None, locus=None):
         length(int): The number of bits used. Not used if a locus is provided.
 
     Returns:
-        int: A new chromosome descended from the given parents.
+        Tuple[int]: A new chromosome descended from the given parents.
 
     Raises:
         ValueError: if neither ``locus`` or ``length`` is specified.
@@ -93,7 +93,7 @@ def single_point_bin(parent1, parent2, length=None, locus=None):
     maskr = 2 ** locus - 1
     maskl = (2 ** length - 1) & ~maskr
 
-    return parent1 & maskl | parent2 & maskr
+    return (parent1 & maskl | parent2 & maskr)
 
 
 def multiple_points(parent1, parent2, loci=None, points=2):
@@ -108,6 +108,18 @@ def multiple_points(parent1, parent2, loci=None, points=2):
     When choosing random points, the chromosomes are divided into `points`
     sections, and a crossover point is selected at random from within that
     section.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+        loci (List[int]): The crossover point or ``None`` to choose at random.
+        points (int): The number of points.
+
+    Returns:
+        Tuple[List]: A new chromosome descended from the given parents.
+
+    Raises:
+        ValueError: if too many points are requested for the chromosome length.
     """
     child = []
     prev = 0
@@ -131,13 +143,20 @@ def multiple_points(parent1, parent2, loci=None, points=2):
 
     child = child + parent1[prev:len(parent1)]
 
-    return child
+    return (child)
 
 
 def uniform(parent1, parent2):
     """Return a new chromosome using uniform crossover.
 
     This is suitable for value encoded GAs.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+
+    Returns:
+        Tuple[List]: A new chromosome descended from the given parents.
     """
     chromosome = []
     for locus in range(0, len(parent1)):
@@ -146,13 +165,21 @@ def uniform(parent1, parent2):
         else:
             chromosome.append(parent2[locus])
 
-    return chromosome
+    return (chromosome)
 
 
 def uniform_bin(parent1, parent2, bits):
     """Return a new chromosome using uniform crossover on a binary string.
 
     This is suitable for binary encoding.
+
+    Args:
+        parent1 (int): A parent chromosome.
+        parent2 (int): A parent chromosome.
+        bits (int): The number of bits used in the encoding.
+
+    Returns:
+        Tuple[List]: A new chromosome descended from the given parents.
     """
     child = 0
     for locus in range(0, bits):
@@ -169,6 +196,14 @@ def ordered(parent1, parent2, point=None):
     This crossover method, also called order-based crossover, is suitable for
     permutation encoding. Ordered crossover respects the relative position of
     alleles.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+        points (int): The point at which to cross over.
+
+    Returns:
+        Tuple[List]: A new chromosome descended from the given parents.
     """
     if point is None:
         point = random.randint(0, len(parent1) - 1)
@@ -179,7 +214,7 @@ def ordered(parent1, parent2, point=None):
         if value not in child:
             child.append(value)
 
-    return child
+    return (child)
 
 
 def partially_matched(parent1, parent2):
@@ -187,6 +222,13 @@ def partially_matched(parent1, parent2):
 
     This is suitable for permutation encoded GAs. Partially matched crossover
     respects the absolute position of alleles.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+
+    Returns:
+        Tuple[List]: A new chromosome descended from the given parents.
     """
     third = len(parent1) // 3
     l1 = int(random.triangular(1, third, third * 2))
@@ -207,7 +249,7 @@ def partially_matched(parent1, parent2):
         locus = parent1.index(subj)
         child[locus] = v
 
-    return child
+    return (child)
 
 
 def edge_recombination(parent1, parent2):
@@ -215,7 +257,7 @@ def edge_recombination(parent1, parent2):
 
     This is suitable for permutation encoded GAs.
     """
-    return ero.recombine(parent1, parent2)
+    return (ero.recombine(parent1, parent2))
 
 
 class ConfigurableCrossoverGA(base.GeneticAlgorithm):
