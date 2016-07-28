@@ -79,6 +79,9 @@ Testing
 
 Running the Unit Tests
 ~~~~~~~~~~~~~~~~~~~~~~
+The examples of running the unit tests below should be run from the project's
+root directory.
+
 To run all tests:
 ::
 
@@ -114,9 +117,9 @@ Planned Changes
 You can expect the following in future releases:
 
 - Additional crossover operators, such as cycle and merge crossover.
-- At least some crossover operators will return two children (breaking change).
 - Mutation rate will be the likelihood of a change to any allele to match Dr.
   Goldberg's examples.
+- Additional traits for crossover and mutation operators.
 - The examples will be moved to another repository and several more will be
   added.
 - API documentation and a user's guide will be available (probably at
