@@ -24,109 +24,135 @@ class CrossoverTestCase(unittest.TestCase):
     def test_single_point_crossover(self):
         p1 = [1] * 10
         p2 = [2] * 10
-        ch = crossover.single_point(p1, p2, 5)[0]
+        ch = crossover.single_point(p1, p2, 5)
 
-        self.assertEqual(len(ch), len(p2))
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
+        for child in ch:
+            self.assertEqual(len(child), len(p2))
+            self.assertNotEqual(child, p1)
+            self.assertNotEqual(child, p2)
 
         for i in range(0, 5):
-            self.assertTrue(ch[i] == p1[i], "Locus %i mismatched" % i)
+            self.assertTrue(ch[0][i] == p1[i], "Locus %i mismatched" % i)
+            self.assertTrue(ch[1][i] == p2[i], "Locus %i mismatched" % i)
 
         for i in range(5, 10):
-            self.assertTrue(ch[i] == p2[i], "Locus %i mismatched" % i)
+            self.assertTrue(ch[0][i] == p2[i], "Locus %i mismatched" % i)
+            self.assertTrue(ch[1][i] == p1[i], "Locus %i mismatched" % i)
 
     def test_random_point_crossover(self):
         p1 = [1] * 10
         p2 = [2] * 10
-        ch = crossover.single_point(p1, p2)[0]
+        ch = crossover.single_point(p1, p2)
 
-        self.assertEqual(len(ch), len(p2))
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
+        for child in ch:
+            self.assertEqual(len(child), len(p2))
+            self.assertNotEqual(child, p1)
+            self.assertNotEqual(child, p2)
 
-        switched = False
-        parent = p1
-        for i, a in enumerate(ch):
-            if parent[i] != a:
-                if not switched:
-                    parent = p2
-                else:
-                    self.fail("Locus %i mismatched" % i)
+        def check(child, parent1, parent2):
+            switched = False
+            parent = parent1
+            for i, a in enumerate(child):
+                if parent[i] != a:
+                    if not switched:
+                        parent = parent2
+                    else:
+                        self.fail("Locus %i mismatched" % i)
 
-            self.assertEqual(parent[i], a)
+                self.assertEqual(parent[i], a)
+
+        check(ch[0], p1, p2)
 
     def test_random_points_crossover(self):
         p1 = [1] * 10
         p2 = [2] * 10
-        ch = crossover.multiple_points(p1, p2, points=2)[0]
+        children = crossover.multiple_points(p1, p2, points=2)
 
-        self.assertEqual(len(ch), len(p2))
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
-        self.validate_ancestry(ch, p1, p2)
+        for ch in children:
+            self.assertEqual(len(ch), len(p2))
+            self.assertNotEqual(ch, p1)
+            self.assertNotEqual(ch, p2)
+            self.validate_ancestry(ch, p1, p2)
 
     def test_multiple_points_crossover(self):
         p1 = [1] * 10
         p2 = [2] * 10
-        ch = crossover.multiple_points(p1, p2, loci=[3, 7])[0]
+        children = crossover.multiple_points(p1, p2, loci=[3, 7])
 
-        self.assertEqual(len(ch), len(p2))
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
-        self.validate_ancestry(ch, p1, p2)
+        for ch in children:
+            self.assertEqual(len(ch), len(p2))
+            self.assertNotEqual(ch, p1)
+            self.assertNotEqual(ch, p2)
+            self.validate_ancestry(ch, p1, p2)
 
     def test_uniform(self):
         p1 = [1] * 10
         p2 = [2] * 10
-        ch = crossover.uniform(p1, p2)[0]
-        for allele in ch:
-            self.assertTrue(allele == 1 or allele == 2)
+        children = crossover.uniform(p1, p2)
+
+        for ch in children:
+            self.assertEqual(len(p1), len(ch))
+            for allele in ch:
+                self.assertTrue(allele == 1 or allele == 2)
 
     def test_uniform_bin(self):
-        p1 = 992
-        p2 = 31
-        ch = crossover.uniform_bin(p1, p2, 10)[0]
+        parent1 = 992
+        parent2 = 31
+        children = crossover.uniform_bin(parent1, parent2, 10)
 
-        b1 = bin(p1)[2:].zfill(10)
-        b2 = bin(p2)[2:].zfill(10)
-        bc = bin(ch)[2:].zfill(10)
+        def check(ch, p1, p2):
+            b1 = bin(p1)[2:].zfill(10)
+            b2 = bin(p2)[2:].zfill(10)
+            bc = bin(ch)[2:].zfill(10)
 
-        for c, m, f in zip(bc, b1, b2):
-            self.assertTrue(c == m or c == f)
+            for c, m, f in zip(bc, b1, b2):
+                self.assertTrue(c == m or c == f)
+
+        for ch in children:
+            check(ch, parent1, parent2)
 
     def test_single_point_bin_crossover(self):
         p1 = 992
         p2 = 31
-        ch = crossover.single_point_bin(p1, p2, 10, 5)[0]
+        children = crossover.single_point_bin(p1, p2, 10, 5)
 
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
-        self.assertEqual(ch, 1023)
+        for ch in children:
+            self.assertNotEqual(ch, p1)
+            self.assertNotEqual(ch, p2)
+
+        self.assertEqual(children[0], 1023)
+        self.assertEqual(children[1], 0)
 
     def test_single_point_bin_crossover_by_locus(self):
         p1 = 992
         p2 = 31
-        ch = crossover.single_point_bin(p1, p2, locus=5)[0]
+        children = crossover.single_point_bin(p1, p2, locus=5)
 
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
-        self.assertEqual(ch, 1023)
+        for ch in children:
+            self.assertNotEqual(ch, p1)
+            self.assertNotEqual(ch, p2)
+
+        self.assertEqual(children[0], 1023)
+        self.assertEqual(children[1], 0)
 
     def test_single_point_bin_crossover_by_length(self):
-        p1 = 992
-        p2 = 31
-        ch = crossover.single_point_bin(p1, p2, length=10)[0]
+        parent1 = 992
+        parent2 = 31
+        children = crossover.single_point_bin(parent1, parent2, length=10)
 
-        self.assertNotEqual(ch, p1)
-        self.assertNotEqual(ch, p2)
+        def check(ch, p1, p2):
+            self.assertNotEqual(ch, p1)
+            self.assertNotEqual(ch, p2)
 
-        b1 = bin(p1)[2:].zfill(10)
-        b2 = bin(p2)[2:].zfill(10)
-        bc = bin(ch)[2:].zfill(10)
+            b1 = bin(p1)[2:].zfill(10)
+            b2 = bin(p2)[2:].zfill(10)
+            bc = bin(ch)[2:].zfill(10)
 
-        for c, m, f in zip(bc, b1, b2):
-            self.assertTrue(c == m or c == f, "%s, %s, %s" % (c, m, f))
+            for c, m, f in zip(bc, b1, b2):
+                self.assertTrue(c == m or c == f, "%s, %s, %s" % (c, m, f))
+
+        for ch in children:
+            check(ch, parent1, parent2)
 
     def validate_ordered(self, ch, p1, p2):
         msg = "p1: %s, p2: %s, ch: %s" % (p1, p2, ch)
@@ -141,13 +167,15 @@ class CrossoverTestCase(unittest.TestCase):
 
     def test_pmx(self):
         p1, p2 = permutated_set()
-        ch = crossover.partially_matched(p1, p2)[0]
-        self.validate_ordered(ch, p1, p2)
+        children = crossover.partially_matched(p1, p2)
+        for ch in children:
+            self.validate_ordered(ch, p1, p2)
 
     def test_ordered(self):
         p1, p2 = permutated_set()
-        ch = crossover.ordered(p1, p2)[0]
-        self.validate_ordered(ch, p1, p2)
+        children = crossover.ordered(p1, p2)
+        for ch in children:
+            self.validate_ordered(ch, p1, p2)
 
     def test_ero(self):
         p1, p2 = permutated_set()
