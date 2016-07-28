@@ -61,8 +61,7 @@ class DummyBinaryGA(GAUT):
         p1 = self.select()
         p2 = self.select()
         child = (p1 & 240) + (p2 & 15)
-        print((child,))
-        return (child)
+        return [child]
 
     def mutate(self, chromosome):
         bit = 2 ** random.randint(0, 7)
