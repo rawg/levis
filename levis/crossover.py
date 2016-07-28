@@ -59,7 +59,10 @@ def single_point(parent1, parent2, locus=None):
     if locus is None:
         locus = int(random.triangular(1, len(parent1) / 2, len(parent1) - 2))
 
-    return [parent1[0:locus] + parent2[locus:]]
+    child1 = parent1[0:locus] + parent2[locus:]
+    child2 = parent2[0:locus] + parent1[locus:]
+
+    return [child1, child2]
 
 
 def single_point_bin(parent1, parent2, length=None, locus=None):
@@ -94,7 +97,10 @@ def single_point_bin(parent1, parent2, length=None, locus=None):
     maskr = 2 ** locus - 1
     maskl = (2 ** length - 1) & ~maskr
 
-    return [parent1 & maskl | parent2 & maskr]
+    child1 = parent1 & maskl | parent2 & maskr
+    child2 = parent2 & maskl | parent1 & maskr
+
+    return [child1, child2]
 
 
 def multiple_points(parent1, parent2, loci=None, points=2):
@@ -122,7 +128,8 @@ def multiple_points(parent1, parent2, loci=None, points=2):
     Raises:
         ValueError: if too many points are requested for the chromosome length.
     """
-    child = []
+    child1 = []
+    child2 = []
     prev = 0
 
     if loci is None:
@@ -138,13 +145,15 @@ def multiple_points(parent1, parent2, loci=None, points=2):
             loci.append(point)
 
     for locus in loci:
-        child = child + parent1[prev:locus]
+        child1 = child1 + parent1[prev:locus]
+        child2 = child2 + parent2[prev:locus]
         prev = locus
         parent2, parent1 = parent1, parent2
 
-    child = child + parent1[prev:len(parent1)]
+    child1 = child1 + parent1[prev:len(parent1)]
+    child2 = child2 + parent2[prev:len(parent2)]
 
-    return [child]
+    return [child1, child2]
 
 
 def uniform(parent1, parent2):
@@ -159,14 +168,18 @@ def uniform(parent1, parent2):
     Returns:
         Tuple[List]: A new chromosome descended from the given parents.
     """
-    chromosome = []
+    child1 = []
+    child2 = []
+
     for locus in range(0, len(parent1)):
         if random.randint(0, 1) == 1:
-            chromosome.append(parent1[locus])
+            child1.append(parent1[locus])
+            child2.append(parent2[locus])
         else:
-            chromosome.append(parent2[locus])
+            child1.append(parent2[locus])
+            child2.append(parent1[locus])
 
-    return [chromosome]
+    return [child1, child2]
 
 
 def uniform_bin(parent1, parent2, bits):
@@ -182,13 +195,16 @@ def uniform_bin(parent1, parent2, bits):
     Returns:
         Tuple[List]: A new chromosome descended from the given parents.
     """
-    child = 0
+    child1 = 0
+    child2 = 0
+
     for locus in range(0, bits):
         mask = 2 ** locus
-        child = mask & parent1 | child
+        child1 = mask & parent1 | child1
+        child2 = mask & parent2 | child2
         parent1, parent2 = parent2, parent1
 
-    return [child]
+    return [child1, child2]
 
 
 def ordered(parent1, parent2, point=None):
@@ -209,13 +225,18 @@ def ordered(parent1, parent2, point=None):
     if point is None:
         point = random.randint(0, len(parent1) - 1)
 
-    child = parent1[0:point]
+    def fill(child, parent):
+        for value in parent2:
+            if value not in child:
+                child.append(value)
 
-    for value in parent2:
-        if value not in child:
-            child.append(value)
+    child1 = parent1[0:point]
+    child2 = parent2[0:point]
 
-    return [child]
+    fill(child1, parent2)
+    fill(child2, parent1)
+
+    return [child1, child2]
 
 
 def partially_matched(parent1, parent2):
@@ -238,19 +259,22 @@ def partially_matched(parent1, parent2):
     if l2 < l1:
         l1, l2 = l2, l1
 
-    matching = parent2[l1:l2]
-    displaced = parent1[l1:l2]
-    child = parent1[0:l1] + matching + parent1[l2:]
+    def pmx(parent1, parent2):
+        matching = parent2[l1:l2]
+        displaced = parent1[l1:l2]
+        child = parent1[0:l1] + matching + parent1[l2:]
 
-    tofind = [item for item in displaced if item not in matching]
-    tomatch = [item for item in matching if item not in displaced]
+        tofind = [item for item in displaced if item not in matching]
+        tomatch = [item for item in matching if item not in displaced]
 
-    for k, v in enumerate(tofind):
-        subj = tomatch[k]
-        locus = parent1.index(subj)
-        child[locus] = v
+        for k, v in enumerate(tofind):
+            subj = tomatch[k]
+            locus = parent1.index(subj)
+            child[locus] = v
 
-    return [child]
+        return child
+
+    return [pmx(parent1, parent2), pmx(parent2, parent1)]
 
 
 def edge_recombination(parent1, parent2):
