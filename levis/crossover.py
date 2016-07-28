@@ -1,3 +1,4 @@
+# coding=utf-8
 """Functions for crossover operations.
 
 Contents
@@ -58,7 +59,7 @@ def single_point(parent1, parent2, locus=None):
     if locus is None:
         locus = int(random.triangular(1, len(parent1) / 2, len(parent1) - 2))
 
-    return (parent1[0:locus] + parent2[locus:])
+    return [parent1[0:locus] + parent2[locus:]]
 
 
 def single_point_bin(parent1, parent2, length=None, locus=None):
@@ -93,7 +94,7 @@ def single_point_bin(parent1, parent2, length=None, locus=None):
     maskr = 2 ** locus - 1
     maskl = (2 ** length - 1) & ~maskr
 
-    return (parent1 & maskl | parent2 & maskr)
+    return [parent1 & maskl | parent2 & maskr]
 
 
 def multiple_points(parent1, parent2, loci=None, points=2):
@@ -143,7 +144,7 @@ def multiple_points(parent1, parent2, loci=None, points=2):
 
     child = child + parent1[prev:len(parent1)]
 
-    return (child)
+    return [child]
 
 
 def uniform(parent1, parent2):
@@ -165,7 +166,7 @@ def uniform(parent1, parent2):
         else:
             chromosome.append(parent2[locus])
 
-    return (chromosome)
+    return [chromosome]
 
 
 def uniform_bin(parent1, parent2, bits):
@@ -187,7 +188,7 @@ def uniform_bin(parent1, parent2, bits):
         child = mask & parent1 | child
         parent1, parent2 = parent2, parent1
 
-    return child
+    return [child]
 
 
 def ordered(parent1, parent2, point=None):
@@ -214,7 +215,7 @@ def ordered(parent1, parent2, point=None):
         if value not in child:
             child.append(value)
 
-    return (child)
+    return [child]
 
 
 def partially_matched(parent1, parent2):
@@ -249,7 +250,7 @@ def partially_matched(parent1, parent2):
         locus = parent1.index(subj)
         child[locus] = v
 
-    return (child)
+    return [child]
 
 
 def edge_recombination(parent1, parent2):
@@ -257,7 +258,7 @@ def edge_recombination(parent1, parent2):
 
     This is suitable for permutation encoded GAs.
     """
-    return (ero.recombine(parent1, parent2))
+    return [ero.recombine(parent1, parent2)]
 
 
 class ConfigurableCrossoverGA(base.GeneticAlgorithm):

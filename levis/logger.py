@@ -1,3 +1,4 @@
+# coding=utf-8
 """Logging traits for genetic algorithms.
 
 Contents
@@ -42,8 +43,8 @@ class FitnessLoggingGA(base.GeneticAlgorithm):
     every member of each generation is already scored, and so there is no
     overhead (calls to ``score_generation`` are memoized in
     ``selection.ProportionateGA`` and its descendants). But in tournament
-    selection – one of the advantages to which is invoking the fitness function
-    less often – this may increase the clock time of your algorithm. To avoid
+    selection - one of the advantages to which is invoking the fitness function
+    less often - this may increase the clock time of your algorithm. To avoid
     rescoring each population, you can provide a probability to log each
     generation by assigning the ``stats_frequency``/``--stats-freq`` option a
     float between 0.0 and 1.0. For instance, to log half of all generations,
