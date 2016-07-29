@@ -117,8 +117,6 @@ Planned Changes
 You can expect the following in future releases:
 
 - Additional crossover operators, such as cycle and merge crossover.
-- Mutation rate will be the likelihood of a change to any allele to match Dr.
-  Goldberg's examples.
 - Additional traits for crossover and mutation operators.
 - The examples will be moved to another repository and several more will be
   added.
@@ -131,6 +129,18 @@ introduce breaking changes.
 
 Change Log
 ----------
+
+:v0.5.0: This version changes some behaviors to match more canonical
+         implementations. Specifically:
+         - All crossover operators return a list of children. Most operators
+           create two children from two parents.
+         - Mutation rate is now expressed as the probability of a mutation to
+           *any* allele, not the probability that a chromosome will undergo a
+           mutation.
+         
+         Additionally, a cut and splice crossover operator and a point mutation
+         that may add or shrink chromosomes has been added for better support
+         for list encoding schemes of heterogeneous length.
 
 :v0.4.0: A big step toward a stable API, this version includes decomposed
          logging traits, an implementation of elitism that works with

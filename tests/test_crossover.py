@@ -39,6 +39,17 @@ class CrossoverTestCase(unittest.TestCase):
             self.assertTrue(ch[0][i] == p2[i], "Locus %i mismatched" % i)
             self.assertTrue(ch[1][i] == p1[i], "Locus %i mismatched" % i)
 
+    def test_cut_and_splice(self):
+        p1 = [1] * 10
+        p2 = [2] * 5
+        ch = crossover.cut_and_splice(p1, p2, [5, 1])
+
+        for child in ch:
+            #self.assertEqual(len(child), len(p2))
+            self.assertNotEqual(child, p1)
+            self.assertNotEqual(child, p2)
+        # more to do here!
+
     def test_random_point_crossover(self):
         p1 = [1] * 10
         p2 = [2] * 10

@@ -65,10 +65,9 @@ class ProportionateGA(base.GeneticAlgorithm):
         tally = 0
         for tupl in ranked:
             if tupl[1] > 0:
-                share = tupl[1] / shares
-                tally = tally + share
-                # chromosome, score, share range
-                self.scored.append((tupl[0], tupl[1], tally))
+                tally = tally + tupl[1] / shares
+            # chromosome, score, share range
+            self.scored.append((tupl[0], tupl[1], tally))
 
     def score_population(self):
         """Return a scored and ranked copy of the population.

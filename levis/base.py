@@ -37,10 +37,11 @@ class GeneticAlgorithm(object):
         self.population = None
         self.next_generation = []
         self.random = random.Random()
+        self.num_cx_children = 2 # number of children per crossover operation
 
         # Basic GA parameters
         self.population_size = self.config.setdefault("population_size", 50)
-        self.mutation_prob = self.config.setdefault("mutation_prob", 0.20)
+        self.mutation_prob = self.config.setdefault("mutation_prob", 0.02)
         self.crossover_prob = self.config.setdefault("crossover_prob", 0.80)
         self.max_iterations = self.config.setdefault("max_iterations", 50)
         if self.max_iterations <= 0:
@@ -131,15 +132,14 @@ class GeneticAlgorithm(object):
             if self.random.random() < self.crossover_prob:
                 children = self.crossover()
             else:
-                children = (self.select(), self.select())
+                children = [self.select() for _ in
+                            range(0, self.num_cx_children)]
 
             for child in children:
                 if len(self.next_generation) >= self.population_size:
                     break
 
-                if self.random.random() < self.mutation_prob:
-                    child = self.mutate(child)
-
+                child = self.mutate(child)
                 self.next_generation.append(child)
 
     def fitness(self, chromosome):

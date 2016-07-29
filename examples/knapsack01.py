@@ -28,7 +28,7 @@ from levis import (configuration, crossover, mutation, FitnessLoggingGA,
                    ProportionateGA, ElitistGA)
 
 
-class Knapsack01GA(FitnessLoggingGA, ProportionateGA, ElitistGA):
+class Knapsack01GA(ElitistGA, ProportionateGA, FitnessLoggingGA):
     """Genetic solution to the 0/1 Knapsack Problem."""
 
     def __init__(self, config={}):
@@ -95,7 +95,8 @@ class Knapsack01GA(FitnessLoggingGA, ProportionateGA, ElitistGA):
             return crossover.single_point_bin(parent1, parent2, length)
 
     def mutate(self, chromosome):
-        return mutation.toggle(chromosome, self.chromosome_length)
+        return mutation.toggle(chromosome, self.chromosome_length,
+                               self.mutation_prob)
 
     def chromosome_str(self, chromosome):
         sack = []

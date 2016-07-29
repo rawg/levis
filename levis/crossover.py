@@ -42,7 +42,8 @@ from . import base
 def single_point(parent1, parent2, locus=None):
     """Return a new chromosome created with single-point crossover.
 
-    This is suitable for use with list or value encoding.
+    This is suitable for use with list or value encoding, and will work with
+    chromosomes of heterogenous lengths.
 
     Args:
         parent1 (List): A parent chromosome.
@@ -51,7 +52,7 @@ def single_point(parent1, parent2, locus=None):
             selected locus.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[List]: Two new chromosomes descended from the given parents.
     """
     if len(parent1) > len(parent2):
         parent1, parent2 = parent2, parent1
@@ -79,7 +80,7 @@ def single_point_bin(parent1, parent2, length=None, locus=None):
         length(int): The number of bits used. Not used if a locus is provided.
 
     Returns:
-        Tuple[int]: A new chromosome descended from the given parents.
+        List[int]: Two new chromosomes descended from the given parents.
 
     Raises:
         ValueError: if neither ``locus`` or ``length`` is specified.
@@ -123,11 +124,14 @@ def multiple_points(parent1, parent2, loci=None, points=2):
         points (int): The number of points.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[List]: Two new chromosomes descended from the given parents.
 
     Raises:
         ValueError: if too many points are requested for the chromosome length.
     """
+    if len(parent1) > len(parent2):
+        parent1, parent2 = parent2, parent1
+
     child1 = []
     child2 = []
     prev = 0
@@ -156,17 +160,42 @@ def multiple_points(parent1, parent2, loci=None, points=2):
     return [child1, child2]
 
 
+def cut_and_splice(parent1, parent2, loci=None):
+    """Return a new chromosome created with cut and splice crossover.
+
+    This is suitable for use with list or value encoding, and will work with
+    chromosomes of heterogeneous lengths.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+        loci (Tuple[int, int]): A crossover locus for each parent.
+
+    Returns:
+        List[List]: Two new chromosomes descended from the given parents.
+    """
+    if loci is None:
+        loci = []
+        loci[0] = int(random.triangular(1, len(parent1) / 2, len(parent1) - 2))
+        loci[1] = int(random.triangular(1, len(parent2) / 2, len(parent2) - 2))
+
+    child1 = parent1[0:loci[0]] + parent2[loci[0]:]
+    child2 = parent2[0:loci[1]] + parent1[loci[1]:]
+
+    return [child1, child2]
+
+
 def uniform(parent1, parent2):
     """Return a new chromosome using uniform crossover.
 
-    This is suitable for value encoded GAs.
+    This is suitable for list and value encoded GAs.
 
     Args:
         parent1 (List): A parent chromosome.
         parent2 (List): A parent chromosome.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[List]: Two new chromosomes descended from the given parents.
     """
     child1 = []
     child2 = []
@@ -193,7 +222,7 @@ def uniform_bin(parent1, parent2, bits):
         bits (int): The number of bits used in the encoding.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[int]: Two new chromosomes descended from the given parents.
     """
     child1 = 0
     child2 = 0
@@ -220,7 +249,7 @@ def ordered(parent1, parent2, point=None):
         points (int): The point at which to cross over.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[List]: Two new chromosomes descended from the given parents.
     """
     if point is None:
         point = random.randint(0, len(parent1) - 1)
@@ -250,7 +279,7 @@ def partially_matched(parent1, parent2):
         parent2 (List): A parent chromosome.
 
     Returns:
-        Tuple[List]: A new chromosome descended from the given parents.
+        List[List]: Two new chromosomes descended from the given parents.
     """
     third = len(parent1) // 3
     l1 = int(random.triangular(1, third, third * 2))
@@ -281,6 +310,14 @@ def edge_recombination(parent1, parent2):
     """Return a new chromosome created using an edge recombination operation.
 
     This is suitable for permutation encoded GAs.
+
+    Args:
+        parent1 (List): A parent chromosome.
+        parent2 (List): A parent chromosome.
+
+    Returns:
+        List[List]: A new chromosome (element 0) descended from the given
+                    parents.
     """
     return [ero.recombine(parent1, parent2)]
 

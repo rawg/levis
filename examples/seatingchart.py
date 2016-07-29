@@ -32,8 +32,8 @@ from levis.util import spatial
 
 # pylint: disable=too-many-instance-attributes, abstract-method
 class SeatingChartGA(
-        levis.ScalingProportionateGA,
         levis.ElitistGA,
+        levis.ScalingProportionateGA,
         levis.FitnessLoggingGA,
         levis.ConfigurableCrossoverGA
     ):
@@ -132,7 +132,7 @@ class SeatingChartGA(
         return people
 
     def mutate(self, chromosome):
-        return levis.mutation.swap(chromosome)
+        return levis.mutation.swap(chromosome, self.mutation_prob)
 
     def chromosome_str(self, chromosome):
         w = int(math.floor(math.log(len(self.roles)))) + 1
