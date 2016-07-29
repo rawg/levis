@@ -5,6 +5,7 @@ levis/base.py
 levis/behavior.py
 levis/configuration.py
 levis/crossover.py
+levis/encoding.py
 levis/ero.py
 levis/logger.py
 levis/mutation.py
