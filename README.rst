@@ -53,11 +53,6 @@ Installation is now available via PyPI.
 
   $ pip install levis
 
-Install by cloning the git repository. Installation via PyPI is coming soon.
-::
-
-  $ git clone https://github.com/rawg/levis
-
 
 Running Examples
 ~~~~~~~~~~~~~~~~
@@ -132,6 +127,7 @@ Change Log
 
 :v0.5.0: This version changes some behaviors to match more canonical
          implementations. Specifically:
+
          - All crossover operators return a list of children. Most operators
            create two children from two parents.
          - Mutation rate is now expressed as the probability of a mutation to
