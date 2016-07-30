@@ -7,7 +7,7 @@ Contents
 This module provides the following classes:
 
 :ConfigurableCrossoverGA:
-    A class that accepts a configuration parameter,
+    **Deprecated** A class that accepts a configuration parameter,
     ``crossover_operator``/``--crossover-operator`` to change the crossover
     operator at runtime. Useful for comparing performance.
 
@@ -323,7 +323,7 @@ def edge_recombination(parent1, parent2):
 
 
 class ConfigurableCrossoverGA(base.GeneticAlgorithm):
-    """A GA trait that makse the crossover method configurable.
+    """**Deprecated** A GA trait that makse the crossover method configurable.
 
     This helps to compare the performance of different operators.
 
