@@ -143,7 +143,7 @@ def multiple_points(parent1, parent2, loci=None, points=2):
         loci = []
         for i in range(0, points):
             floor = int(i / points * len(parent1)) + 1
-            ceil = int((i + 1) / points * len(parent1)) + 1
+            ceil = int((i + 1) / points * len(parent1))
             point = random.randint(floor, ceil)
 
             loci.append(point)
