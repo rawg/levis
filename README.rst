@@ -125,6 +125,9 @@ introduce breaking changes.
 Change Log
 ----------
 
+:v0.5.1: Fixing an off by one error when randomly selecting points in
+         ``crossover.multiple_points``.
+
 :v0.5.0: This version changes some behaviors to match more canonical
          implementations. Specifically:
 
