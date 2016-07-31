@@ -16,8 +16,8 @@ class EncodingScheme(base.GeneticAlgorithm):
 
     @classmethod
     def arg_parser(cls):
-        parser = super(ConfigurableCrossoverGA, cls).arg_parser()
-        parser.add_argument("--crossover", "-cx",
+        parser = super(EncodingScheme, cls).arg_parser()
+        parser.add_argument("--crossover_operator", "-cx",
                             help="Crossover operator")
         return parser
 
