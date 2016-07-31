@@ -1,6 +1,13 @@
 levis package
 =============
 
+Subpackages
+-----------
+
+.. toctree::
+
+    levis.util
+
 Submodules
 ----------
 
@@ -8,6 +15,14 @@ levis.base module
 -----------------
 
 .. automodule:: levis.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+levis.behavior module
+---------------------
+
+.. automodule:: levis.behavior
     :members:
     :undoc-members:
     :show-inheritance:
@@ -28,18 +43,18 @@ levis.crossover module
     :undoc-members:
     :show-inheritance:
 
-levis.ero module
-----------------
+levis.encoding module
+---------------------
 
-.. automodule:: levis.ero
+.. automodule:: levis.encoding
     :members:
     :undoc-members:
     :show-inheritance:
 
-levis.hilbert module
---------------------
+levis.ero module
+----------------
 
-.. automodule:: levis.hilbert
+.. automodule:: levis.ero
     :members:
     :undoc-members:
     :show-inheritance:
@@ -64,14 +79,6 @@ levis.selection module
 ----------------------
 
 .. automodule:: levis.selection
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-levis.spatial module
---------------------
-
-.. automodule:: levis.spatial
     :members:
     :undoc-members:
     :show-inheritance:
