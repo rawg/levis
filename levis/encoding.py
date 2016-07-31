@@ -114,10 +114,10 @@ class PermutationGA(EncodingScheme):
             raise ValueError("Crossover operator must be `ordered`, "
                              "`partially_matched`, or `edge_recombination`.")
 
-        if operator is "ordered":
+        if operator is "ordered" or operator is "ox":
             op = lambda p1, p2: ordered(p1, p2)
             self.num_cx_children = 2
-        elif operator is "partially_matched":
+        elif operator is "partially_matched" or operator is "pmx":
             op = lambda p1, p2: partially_matched(p1, p2)
             self.num_cx_children = 2
         else:
