@@ -17,7 +17,7 @@ class EncodingScheme(base.GeneticAlgorithm):
     @classmethod
     def arg_parser(cls):
         parser = super(ConfigurableCrossoverGA, cls).arg_parser()
-        parser.add_argument("--crossover-operator", "-cx",
+        parser.add_argument("--crossover", "-cx",
                             help="Crossover operator")
         return parser
 
@@ -27,14 +27,13 @@ class EncodingScheme(base.GeneticAlgorithm):
         self.crossover_operator(parent1, parent2)
 
 
-
 class BinaryGA(EncodingScheme):
     """A binary encoded genetic algorithm."""
 
     def __init__(self, config={}):
         super(BinaryGA, self).__init__(config)
 
-        operator = self.config.setdefault("crossover_operator", "single_point")
+        operator = self.config.setdefault("crossover", "single_point")
 
         if operator not in ["single_point", "uniform"]:
             raise ValueError("Crossover operator must be `single_point` or "
