@@ -175,7 +175,7 @@ def cut_and_splice(parent1, parent2, loci=None):
         List[List]: Two new chromosomes descended from the given parents.
     """
     if loci is None:
-        loci = []
+        loci = [0, 0]
         loci[0] = int(random.triangular(1, len(parent1) / 2, len(parent1) - 2))
         loci[1] = int(random.triangular(1, len(parent2) / 2, len(parent2) - 2))
 

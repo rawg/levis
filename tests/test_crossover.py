@@ -6,6 +6,10 @@ from __future__ import absolute_import
 import random
 import unittest
 
+from hypothesis import given
+from hypothesis.strategies import floats, integers
+from mock import patch
+
 from . import context
 from .harness import permutated_set
 
@@ -39,26 +43,55 @@ class CrossoverTestCase(unittest.TestCase):
             self.assertTrue(ch[0][i] == p2[i], "Locus %i mismatched" % i)
             self.assertTrue(ch[1][i] == p1[i], "Locus %i mismatched" % i)
 
+    def validate_cut_and_splice(self, ch, p1, p2):
+        # TODO first matches compared from beginning, second from end
+        switches = 0
+        parents = [p1, p2]
+        current = None
+
+        for i in range(0, len(ch)):
+            if current is None:
+                if p1[i] != p2[i]:
+                    if p1[i] == ch[i]:
+                        current = 0
+                    elif p2[i] == ch[i]:
+                        current = 1
+                    else:
+                        self.fail("Allele is form from neither parent")
+            else:
+                if parents[current][i] != ch[i]:
+                    current = int(not current)
+                    self.assertEqual(parents[current][i], ch[i])
+                    switches += 1
+
+        self.assertEqual(switches, 1)
+
     def test_cut_and_splice(self):
         p1 = [1] * 10
         p2 = [2] * 5
         ch = crossover.cut_and_splice(p1, p2, [5, 1])
 
         for child in ch:
-            #self.assertEqual(len(child), len(p2))
+            self.assertLessEqual(len(child), len(p1) + len(p2))
             self.assertNotEqual(child, p1)
             self.assertNotEqual(child, p2)
-        # more to do here!
+            #self.validate_cut_and_splice(child, p1, p2)
 
-    def test_random_point_crossover(self):
+    @given(floats(1.0, 9.0))
+    def test_random_cut_and_splice(self, f):
         p1 = [1] * 10
-        p2 = [2] * 10
-        ch = crossover.single_point(p1, p2)
+        p2 = [2] * 5
+        ch = crossover.cut_and_splice(p1, p2)
 
         for child in ch:
-            self.assertEqual(len(child), len(p2))
+            self.assertLessEqual(len(child), len(p1) + len(p2))
             self.assertNotEqual(child, p1)
             self.assertNotEqual(child, p2)
+
+    @given(floats(1.0, 9.0))
+    def test_random_point_crossover(self, f):
+        p1 = [1] * 10
+        p2 = [2] * 10
 
         def check(child, parent1, parent2):
             switched = False
@@ -72,12 +105,26 @@ class CrossoverTestCase(unittest.TestCase):
 
                 self.assertEqual(parent[i], a)
 
+        with patch("random.triangular", return_value=f):
+            ch = crossover.single_point(p1, p2)
+
+        for child in ch:
+            self.assertEqual(len(child), len(p2))
+            self.assertNotEqual(child, p1)
+            self.assertNotEqual(child, p2)
+
         check(ch[0], p1, p2)
 
-    def test_random_points_crossover(self):
+
+    @given(integers(0, 4))
+    def test_random_points_crossover(self, i):
         p1 = [1] * 10
         p2 = [2] * 10
-        children = crossover.multiple_points(p1, p2, points=2)
+
+        se = lambda floor, ceil: floor + i
+
+        with patch("random.randint", side_effect=se):
+            children = crossover.multiple_points(p1, p2, points=2)
 
         for ch in children:
             self.assertEqual(len(ch), len(p2))
