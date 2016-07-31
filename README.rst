@@ -23,7 +23,11 @@ give you proportionate or tournament selection, and the latter will enable
 logging (including verbosity).
 
 You'll also want to override the ``crossover()`` and ``mutate()`` methods with
-implementations from the packages by the same name.
+implementations from the packages by the same name, or extend one of the helper
+traits in ``encoding``, e.g. ``encoding.BinaryGA``, for the appropriate
+mutation and crossover. A bonus of these traits is that the crossover operator
+can be configured with the command line argument ``--crossover_operator``,
+which makes comparison easy.
 
 The examples each have three components: a genetic solution, a method to
 generate data, and a ``main`` method to wire in command line arguments. The
@@ -37,9 +41,19 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 One of levis' design goals is to be runnable on the default Mac OS Python
-installation. As a result, levis targets Python 2.7+ and 3.2+. There are no
-dependencies to work with levis, but image rendering in the examples, when
-implemented, relies on ``svgwrite``, and some data generation needs ``Faker``.
+installation. As a result, levis targets Python 2.7+ and 3.2+. There are *no*
+dependencies to work with levis! However, the tests require ``Hypothesis`` and
+``mock``, which are documented in ``requirements.txt``. PyPI should install
+these automatically, but if you want to install them separately you may do so
+with ``pip`` directly or by installing all module dependencies with:
+::
+
+  $ pip install -r requirements.txt
+
+
+There are a few dependencies in the examples. Image rendering relies on
+``svgwrite``, and some data generation needs ``Faker``. Both can be installed
+with pip/easy_install like so:
 ::
 
   $ pip install svgwrite
@@ -48,7 +62,7 @@ implemented, relies on ``svgwrite``, and some data generation needs ``Faker``.
 
 Installing
 ~~~~~~~~~~
-Installation is now available via PyPI.
+Levis is published to PyPI, which makes installation as simple as:
 ::
 
   $ pip install levis
@@ -112,7 +126,7 @@ Planned Changes
 You can expect the following in future releases:
 
 - Additional crossover operators, such as cycle and merge crossover.
-- Additional traits for crossover and mutation operators.
+- Better test coverage for the traits in the ``encoding`` module.
 - The examples will be moved to another repository and several more will be
   added.
 - API documentation and a user's guide will be available (probably at
@@ -124,6 +138,13 @@ introduce breaking changes.
 
 Change Log
 ----------
+
+:v0.6.0: Added in this version:
+
+         - Helper traits to implement mutation and configurable crossover for
+           various encoding types. See the ``encoding`` module.
+         - A ``cut_and_splice`` crossover to better support list encoding
+           schemes in which chromosomes may have heterogeneous lengths.
 
 :v0.5.1: Fixing an off by one error when randomly selecting points in
          ``crossover.multiple_points``.
