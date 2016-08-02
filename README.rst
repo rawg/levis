@@ -41,7 +41,7 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 One of levis' design goals is to be runnable on the default Mac OS Python
-installation. As a result, levis targets Python 2.7+ and 3.2+. There are *no*
+installation. As a result, levis targets Python 2.7+ and 3.3+. There are *no*
 dependencies to work with levis! However, the tests require ``Hypothesis`` and
 ``mock``, which are documented in ``requirements.txt``. PyPI should install
 these automatically, but if you want to install them separately you may do so
